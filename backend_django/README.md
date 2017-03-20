@@ -7,7 +7,7 @@
 ```
 
 ## Usage
-```
+```bash
 $ cd backend_django
 $ python3 manage.py runserver
 ```
