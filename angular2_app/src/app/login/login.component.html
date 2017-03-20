@@ -1,0 +1,34 @@
+
+
+<div *ngIf="loading">
+  <md-spinner id="load" style="margin: 0 auto;"></md-spinner> <br/><br/><br/><br/>
+</div>
+
+
+<div *ngIf="!isAlreadyLoggedIn" class="forform">
+
+  <form id="form" (ngSubmit)="dologin()" #formm="ngForm">
+
+    <div *ngFor="let er of globErrors">
+      <label for="email">{{er}}</label> <br/><br/>
+    </div>
+
+    <!--server side errors for email field-->
+    <md-input-container id="email" dividerColor="{{setcol(emaill)}}">
+      <input type="email" mdInput placeholder="Email" name="email" [(ngModel)]="user.email" #emaill="ngModel" pattern="{{emailPat}}" required>
+    </md-input-container>
+    <br/><br/>
+
+    <!--server side errors-->
+    <md-input-container id="password" dividerColor="{{setcol(passwordd)}}">
+      <input type="password" mdInput placeholder="Password" name="password" [(ngModel)]="user.password" #passwordd="ngModel" required>
+    </md-input-container>
+
+    <br/><br/>
+
+    <button md-raised-button color="primary" type="submit">{{formm.form.valid ? "Login" : "Invalid Inputs"}}</button>
+    <button md-raised-button routerLink="/register" color="primary">Register</button>
+
+    <br/>
+  </form>
+</div>

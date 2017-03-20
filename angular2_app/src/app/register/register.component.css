@@ -1,0 +1,11 @@
+form {
+  width: 300px;
+  margin: 0 auto;
+}
+md-input-container {
+  width: 100%;
+}
+
+label {
+  color: red;
+}

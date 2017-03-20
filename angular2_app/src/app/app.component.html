@@ -1,0 +1,23 @@
+<div>
+<md-toolbar color="primary">
+  <span>No Name For Now</span>
+
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
+
+  <label *ngIf="loggedIn">welcome {{user.username}}</label>
+  <button *ngIf="loggedIn" md-button color="warn" (click)="logout()">
+    <md-icon>block</md-icon>Logout
+  </button>
+
+
+  <button *ngIf="!loggedIn" md-button color="accent" routerLink="/login">
+    <md-icon>fingerprint</md-icon>login
+  </button>
+  <button *ngIf="!loggedIn" md-button color="accent" routerLink="/register">
+    <md-icon>create</md-icon>register
+  </button>
+</md-toolbar>
+</div>
+<br/><br/>
+<router-outlet></router-outlet>
