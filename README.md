@@ -1,2 +1,2 @@
-# typist
-A typing competition site.
+# Typing Site
+A Simple Typing Site Competition.
