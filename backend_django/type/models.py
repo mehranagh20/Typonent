@@ -20,6 +20,11 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    '''
+    Custom User class.
+    a user can have many Involvements.
+    '''
+
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
 
@@ -58,4 +63,71 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.username
+
+
+class Text(models.Model):
+    '''
+    Model for competition text.
+    '''
+
+    name = models.CharField(max_length=40, default="")
+    txt = models.TextField()
+
+    # other things maybe
+    # difficulty
+    # num of words ...
+
+    def __str__(self):
+        return self.name
+
+
+class Competition(models.Model):
+    '''
+    Model for competition.
+    A competition can have many requirements, a text, many Involvements(competitors).
+    '''
+
+    name = models.CharField(max_length=40)
+    start_time = models.DateTimeField()
+    duration = models.IntegerField(default=0)
+    max_competitors = models.IntegerField(default=0)
+    user_registered_number = models.IntegerField(default=0)
+    text = models.ForeignKey(Text, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class Requirement(models.Model):
+    '''
+    Model for specifying requirements for registering in a competition.
+    A requirement has a competition.
+    '''
+
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
+    min_rank = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.competition.name + " " + str(self.min_rank)
+
+
+class Involvement(models.Model):
+    '''
+    Model for specifying both contestant of a competition and achievements of a user.
+    An involvement has a competition and a user saying that the user has involved in the competition.
+    '''
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='achievements')
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='competitors')
+    rank = models.IntegerField(default=0)
+
+    # information about contestant
+    # like wpm
+    # ...
+
+    def __str__(self):
+        return '{} {}'.format(self.user, self.competition)
+
+
+
 

@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.http.get(this.url + 'ping/12/', {withCredentials: true}).map((response: Response) => response.json()).subscribe(
       data => {
         console.log(data);

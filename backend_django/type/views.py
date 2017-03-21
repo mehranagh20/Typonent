@@ -1,11 +1,11 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, requires_csrf_token, ensure_csrf_cookie
-from type.models import User
-from type.serializers import UserSerializer
+from type.models import User, Competition, Requirement, Involvement, Text
+from type.serializers import UserSerializer, CompetitionSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.middleware import csrf
-import django
 import json
+from django.utils import timezone
 
 
 def register(request):
@@ -67,3 +67,19 @@ def ping(request, val):
     request.session.set_test_cookie()
     h = HttpResponse(val)
     return h
+
+
+def upcoming_competition_list(request, nums):
+    nums = int(nums)
+    comps = Competition.objects.filter(start_time__gt=timezone.now())
+    all = {'list': [CompetitionSerializer(cmp).data for cmp in comps[nums:nums + 10]]}
+    all['numbers'] = len(all['list'])
+    return JsonResponse(all)
+
+
+def past_competition_list(request, nums):
+    nums = int(nums)
+    comps = Competition.objects.filter(start_time__lte=timezone.now())
+    all = {'list': [CompetitionSerializer(cmp).data for cmp in comps[nums:nums + 10]]}
+    all['numbers'] = len(all['list'])
+    return JsonResponse(all)

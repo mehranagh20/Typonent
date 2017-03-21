@@ -1,0 +1,24 @@
+<md-tab-group>
+  <br/>
+  <br/>
+  <md-tab label="Upcoming Competitions">
+    <md-list>
+      <h3 md-subheader>Competitions</h3>
+      <md-list-item *ngFor="let comp of upcomming_competitions">
+        <md-icon md-list-avatar>folder</md-icon>
+        <h4 md-line>{{comp.name}} {{comp.start_time | date}}</h4>
+      </md-list-item>
+    </md-list>
+  </md-tab>
+
+    <md-tab label="Past Competitions">
+      <md-list>
+        <h3 md-subheader>Competitions</h3>
+        <md-list-item *ngFor="let comp of past_competitions">
+          <md-icon md-list-avatar>folder</md-icon>
+          <h3 md-line>{{comp.name}} {{comp.start_time | date}}</h3>
+        </md-list-item>
+      </md-list>
+    </md-tab>
+
+</md-tab-group>

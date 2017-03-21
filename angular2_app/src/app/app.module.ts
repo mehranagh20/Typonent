@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {AuthenticationService} from './authentication.service';
+import { CompetitionsComponent } from './competitions/competitions.component';
+import {CompetitionService} from './competition.service'
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import {AuthenticationService} from './authentication.service';
     LoginComponent,
     RegisterComponent,
     LoginComponent,
+    CompetitionsComponent,
 
   ],
   imports: [
@@ -30,7 +33,8 @@ import {AuthenticationService} from './authentication.service';
   ],
   providers: [
     AuthenticationService, CookieService,
-    { provide: XSRFStrategy, useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken') }
+    { provide: XSRFStrategy, useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken') },
+    CompetitionService,
   ],
   bootstrap: [AppComponent]
 })

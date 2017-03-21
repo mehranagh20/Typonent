@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import update_session_auth_hash
-from type.models import User
+from type.models import User, Competition
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,7 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         password = validated_data.get('password', None)
 
-        #TODO check old password to be sure the user is the owner
         confirm_password = validated_data.get('confirm_password', None)
         if password and confirm_password and password == confirm_password:
             instance.set_password(password)
@@ -28,3 +27,9 @@ class UserSerializer(serializers.ModelSerializer):
 
         # update_session_auth_hash(self.context.get('request'), instance)
         return instance
+
+
+class CompetitionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Competition
+        fields = ('name', 'start_time', 'duration', 'user_registered_number', 'max_competitors')
