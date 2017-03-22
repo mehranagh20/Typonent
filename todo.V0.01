@@ -3,4 +3,5 @@
 # add register view for competition and check req of the competition.
 # add register link for comp.
 # only logged in users can see competitions :)
-#
+# add is_logged_in in authentication service, change app.comp.ts base on it.
+# use is_logged_in for letting users see competitions or not.

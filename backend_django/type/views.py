@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.middleware import csrf
 import json
 from django.utils import timezone
+import datetime
 
 
 def register(request):
@@ -72,6 +73,8 @@ def ping(request, val):
 def upcoming_competition_list(request, nums):
     nums = int(nums)
     comps = Competition.objects.filter(start_time__gt=timezone.now())
+    comps = sorted(comps, key=lambda k: k.start_time)
+
     all = {'list': [CompetitionSerializer(cmp).data for cmp in comps[nums:nums + 10]]}
     all['numbers'] = len(all['list'])
     return JsonResponse(all)
@@ -80,6 +83,8 @@ def upcoming_competition_list(request, nums):
 def past_competition_list(request, nums):
     nums = int(nums)
     comps = Competition.objects.filter(start_time__lte=timezone.now())
+    comps = sorted(comps, key=lambda k: k.start_time)
+
     all = {'list': [CompetitionSerializer(cmp).data for cmp in comps[nums:nums + 10]]}
     all['numbers'] = len(all['list'])
     return JsonResponse(all)
