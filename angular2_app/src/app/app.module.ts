@@ -11,7 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {AuthenticationService} from './authentication.service';
 import { CompetitionsComponent } from './competitions/competitions.component';
-import {CompetitionService} from './competition.service'
+import {CompetitionService} from './competition.service';
 
 @NgModule({
   declarations: [
