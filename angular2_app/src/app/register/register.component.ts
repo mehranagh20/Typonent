@@ -66,8 +66,8 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    let user = localStorage.getItem('user');
-    if(user)
+    // let user = localStorage.getItem('user');
+    if(this.authenticationService.is_user_logged_in())
       this.route.navigate(['/']);
     else this.isAlreadyLoggedIn = false;
   }

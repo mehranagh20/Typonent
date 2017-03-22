@@ -1,6 +1,8 @@
-# add related icon for competition in list.
-# add timer for upcoming competitions to see how much time is left for the competition.
+# categorize competition view (name, remaining_time, duration, ...)
+# add timer for upcoming competitions to see how much time is left for the competition. --> done
 # add register view for competition and check req of the competition.
 # add register link for comp.
-# only logged in users can see competitions :)
-#
+# only logged in users can see competitions :) --> done
+# add is_logged_in in authentication service, change app.comp.ts base on it. --> done
+# use is_logged_in for letting users see competitions or not. --> done
+# get date from server not the client --> done

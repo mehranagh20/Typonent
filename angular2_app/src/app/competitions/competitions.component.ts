@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {Competition} from '../competition'
 import {CompetitionService} from '../competition.service'
 import {CompetitionRemainingTime} from '../competition-remaining-time'
+import {AuthenticationService} from '../authentication.service'
+import {Router} from '@angular/router'
+import {Http, Response} from "@angular/http";
+import 'rxjs/add/operator/map'
 
 @Component({
   selector: 'app-competitions',
@@ -10,18 +14,34 @@ import {CompetitionRemainingTime} from '../competition-remaining-time'
 })
 export class CompetitionsComponent implements OnInit {
 
-  constructor(private compService: CompetitionService) { }
+  constructor(private compService: CompetitionService, private authenticationService: AuthenticationService, private route: Router, private http: Http) { }
 
   upcomingNum = 0; // number of loaded upcoming competitions from server.
   pastNum = 0; // number of loaded past competitions from server.
   past_competitions = [];
   upcoming_competitions = [];
+  current_date: string;
+
+  cur_date() {
+    let date: string;
+    this.http.get(this.authenticationService.url + 'getdate').map((res: Response) => res.json()).subscribe(
+      data => {
+        this.current_date = data['date'];
+
+        // now that current_time is set up we load the competitions.
+        this.load_up_comp();
+        this.load_past_comp();
+      },
+      error => {
+        console.log("error getting current time from server");
+        this.current_date = String(new Date().getTime());
+      }
+    );
+  }
 
   date_to_remaining_time(date: string, len: number) {
     // Find the distance between now an the count down date
-    let distance = new Date(date).getTime() - new Date().getTime();
-
-    console.log(date);
+    let distance = new Date(date).getTime() - new Date(this.current_date).getTime();
 
     this.upcoming_competitions[len].remaining_time.week = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
     this.upcoming_competitions[len].remaining_time.days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
@@ -79,6 +99,7 @@ export class CompetitionsComponent implements OnInit {
       }
   }
 
+  // used in html
   remaining_representation(c: CompetitionRemainingTime) {
     if(c.week) return String("0" + c.week).slice(-2) + " Week" + (c.week > 1) ? "s" : "";
     if(c.days) return String("0" + c.days).slice(-2) + " Day" + (c.days > 1) ? "s" : "";
@@ -89,8 +110,8 @@ export class CompetitionsComponent implements OnInit {
   ngOnInit() {
     this.upcomingNum = 0;
     this.pastNum = 0;
-    this.load_up_comp();
-    this.load_past_comp();
+
+    this.cur_date();
 
     setInterval(() => this.update_time(), 1000);
 

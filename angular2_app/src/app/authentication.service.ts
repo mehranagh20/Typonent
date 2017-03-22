@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class AuthenticationService {
   url: string = "http://127.0.0.1:8000/";
+  redirectUrl: string;
+
   constructor(private http: Http, private cookieService: CookieService, private csrf: XSRFStrategy) { }
 
   register(email: string, username: string, password: string) {
@@ -19,6 +21,10 @@ export class AuthenticationService {
     console.log(c);
     return this.http.post(this.url + "login/", JSON.stringify(({email: email, password: password})))
       .map((response: Response) => response.json());
+  }
+
+  is_user_logged_in() {
+    return localStorage.getItem('user');
   }
 
 }

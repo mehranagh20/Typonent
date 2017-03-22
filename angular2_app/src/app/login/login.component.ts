@@ -27,7 +27,13 @@ export class LoginComponent implements OnInit {
       data => {
         if(data['status'] == 200) {
           localStorage.setItem('user', JSON.stringify({'email': data['email'], 'username': data['username']}));
-          this.route.navigate(['/']);
+          // this.route.navigate(['/']);
+          // location.reload();
+          console.log(this.authenticationService.redirectUrl);
+          if(this.authenticationService.redirectUrl)
+            this.route.navigate([this.authenticationService.redirectUrl]);
+          else
+            this.route.navigate(['/']);
           location.reload();
         }
         else {
@@ -48,8 +54,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    let user = localStorage.getItem('user');
-    if(user)
+    // let user = localStorage.getItem('user');
+    if(this.authenticationService.is_user_logged_in())
       this.route.navigate(['/']);
     else this.isAlreadyLoggedIn = false;
   }

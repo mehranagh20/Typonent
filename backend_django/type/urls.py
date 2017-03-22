@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^ping/([0-9]+)/$', views.ping),
     url(r'^upcomingComps/([0-9]+)', views.upcoming_competition_list),
     url(r'^pastComps/([0-9]+)', views.past_competition_list),
+    url(r'^getdate/$', views.cur_date),
+
 
 ]

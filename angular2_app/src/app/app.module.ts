@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import {AuthenticationService} from './authentication.service';
 import { CompetitionsComponent } from './competitions/competitions.component';
 import {CompetitionService} from './competition.service';
+import {AuthGuardService} from './auth-guard.service'
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {CompetitionService} from './competition.service';
 
   ],
   providers: [
+    AuthGuardService,
     AuthenticationService, CookieService,
     { provide: XSRFStrategy, useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken') },
     CompetitionService,
