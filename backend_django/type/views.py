@@ -94,4 +94,7 @@ def past_competition_list(request, nums):
     return JsonResponse(all)
 
 
-def register_competition(request)
+def register_competition(request, id):
+    print(request.user)
+    print(Competition.objects.get(pk=id))
+    return JsonResponse({'status': 200})

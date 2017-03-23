@@ -16,7 +16,9 @@
        </td>
        <td>{{cmp.duration}}</td>
        <td>{{cmp.time_representation}}</td>
-       <td>Click To Register</td>
+       <td>
+         <button md-button (click)="register_competition(cmp.id)">Click To Register</button>
+       </td>
      </tr>
    </table>
     <br/>

@@ -3,6 +3,7 @@ import {CompetitionRemainingTime} from './competition-remaining-time'
 export class Competition {
 
   constructor(
+    public id: number,
   public name: string,
   public start_time: string,
   public duration: number,

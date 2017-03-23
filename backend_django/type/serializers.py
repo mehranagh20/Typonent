@@ -32,4 +32,4 @@ class UserSerializer(serializers.ModelSerializer):
 class CompetitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Competition
-        fields = ('name', 'start_time', 'duration', 'user_registered_number', 'max_competitors')
+        fields = ('id', 'name', 'start_time', 'duration', 'user_registered_number', 'max_competitors')

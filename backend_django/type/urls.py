@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^upcomingComps/([0-9]+)', views.upcoming_competition_list),
     url(r'^pastComps/([0-9]+)', views.past_competition_list),
     url(r'^getdate/$', views.cur_date),
+    url(r'^registerComp/([0-9]+)$', views.register_competition)
 
 
 ]

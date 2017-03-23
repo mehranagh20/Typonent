@@ -5,6 +5,7 @@ import {CompetitionRemainingTime} from '../competition-remaining-time'
 import {AuthenticationService} from '../authentication.service'
 import {Router} from '@angular/router'
 import {Http, Response} from "@angular/http";
+import {MdSnackBar} from '@angular/material'
 import 'rxjs/add/operator/map'
 
 @Component({
@@ -14,7 +15,9 @@ import 'rxjs/add/operator/map'
 })
 export class CompetitionsComponent implements OnInit {
 
-  constructor(private compService: CompetitionService, private authenticationService: AuthenticationService, private route: Router, private http: Http) { }
+  constructor(private compService: CompetitionService,
+              private authenticationService: AuthenticationService,
+              private route: Router, private http: Http, private snackBar: MdSnackBar) { }
 
   upcomingNum = 0; // number of loaded upcoming competitions from server.
   pastNum = 0; // number of loaded past competitions from server.
@@ -52,7 +55,7 @@ export class CompetitionsComponent implements OnInit {
   }
 
   json_to_competition(js) {
-    return new Competition(js['name'], js['start_time'], js['duration'], js['user_registered_number'], js['max_competitors']
+    return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['user_registered_number'], js['max_competitors']
       , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "");
   }
 
@@ -117,6 +120,31 @@ export class CompetitionsComponent implements OnInit {
       else
         cmp.time_representation = String("0" + cmp.remaining_time.hour).slice(-2) + ":" + String("0" + cmp.remaining_time.minute).slice(-2) + ":" + String("0" + cmp.remaining_time.second).slice(-2);
     }
+  }
+
+  register_competition(id: number) {
+    this.http.get(this.authenticationService.url + "registerComp/" + id).map((res: Response) => res.json())
+      .subscribe(
+        data => {
+          if(data['status'] == 200) {
+            this.openSnackBar("You are registered", "Successful");
+          }
+          else {
+            this.openSnackBar("You Can Not Register In This Competition", "Failed");
+          }
+        },
+        error => {
+          console.log(error);
+          this.openSnackBar("Problem Communicating With Server", "Failed");
+
+        }
+      );
+  }
+
+  openSnackBar(message: string, status: string) {
+    this.snackBar.open(message, status, {
+      duration: 3000,
+    });
   }
 
   ngOnInit() {
