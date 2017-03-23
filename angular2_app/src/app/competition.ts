@@ -9,7 +9,8 @@ export class Competition {
   public user_registered_number: number,
   public max_competitors: number,
   public remaining_time: CompetitionRemainingTime,
-  public has_expired: boolean
+  public has_expired: boolean,
+  public time_representation: string,
 
 ) {}
 

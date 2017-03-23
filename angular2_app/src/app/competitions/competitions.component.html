@@ -1,26 +1,46 @@
 <md-tab-group>
-  <br/>
-  <br/>
+
   <md-tab label="Upcoming Competitions">
-    <md-list>
-      <h3 md-subheader>Competitions</h3>
-      <md-list-item *ngFor="let comp of upcoming_competitions">
-        <md-icon md-list-avatar>folder</md-icon>
-        <h4 md-line>{{comp.name}}</h4>
-        <p *ngIf="comp.has_expired">Expired !</p>
-        <p *ngIf="!comp.has_expired">{{remaining_representation(comp.remaining_time)}}</p>
-      </md-list-item>
-    </md-list>
+    <table>
+     <tr>
+       <th>Competition Name</th>
+       <th>Start</th>
+       <th>Length</th>
+       <th>Before Start</th>
+       <th>Register</th>
+     </tr>
+     <tr *ngFor="let cmp of upcoming_competitions">
+       <td>{{cmp.name}}</td>
+       <td>
+         <a target="_blank" href="{{link_to_local_time(cmp.start_time)}}">{{cmp.start_time}}</a>
+       </td>
+       <td>{{cmp.duration}}</td>
+       <td>{{cmp.time_representation}}</td>
+       <td>Click To Register</td>
+     </tr>
+   </table>
+    <br/>
+    <button style="margin: auto ; display: block;" md-icon-button color="warn" (click)="load_up_comp()">
+      <md-icon>expand_more</md-icon>
+    </button>
+
   </md-tab>
 
-    <md-tab label="Past Competitions">
-      <md-list>
-        <h3 md-subheader>Competitions</h3>
-        <md-list-item *ngFor="let comp of past_competitions">
-          <md-icon md-list-avatar>folder</md-icon>
-          <h3 md-line>{{comp.name}} {{comp.start_time | date}}</h3>
-        </md-list-item>
-      </md-list>
-    </md-tab>
+  <md-tab label="Past Competitions">
+    <table>
+      <tr>
+        <th>Competition Name</th>
+        <th>Start</th>
+        <th>Length</th>
+      </tr>
+      <tr *ngFor="let cmp of past_competitions">
+        <td>{{cmp.name}}</td>
+        <td>
+          <a target="_blank" href="{{link_to_local_time(cmp.start_time)}}">{{cmp.start_time}}</a>
+        </td>
+        <td>{{cmp.duration}}</td>
+      </tr>
+    </table>
+  </md-tab>
 
 </md-tab-group>

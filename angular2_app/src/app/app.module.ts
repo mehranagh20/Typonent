@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, XSRFStrategy, CookieXSRFStrategy} from '@angular/http';
 import {CookieService} from 'angular2-cookie/core';
-import {MaterialModule} from '@angular/material'
+import {MaterialModule} from '@angular/material';
+import {AccordionModule} from 'primeng/primeng';     //accordion and accordion tab
+// import {MenuItem} from 'primeng/primeng';            //api
+
+import {DataTableModule, MenuItem} from 'primeng/primeng';
 
 import {AppRouterModule} from './app.routes'
 import { AppComponent } from './app.component';
@@ -25,6 +29,8 @@ import {AuthGuardService} from './auth-guard.service'
 
   ],
   imports: [
+    AccordionModule,
+    DataTableModule,
     BrowserModule,
     FormsModule,
     HttpModule,

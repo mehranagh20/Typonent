@@ -92,3 +92,6 @@ def past_competition_list(request, nums):
     all = {'list': [CompetitionSerializer(cmp).data for cmp in comps[nums:nums + 10]]}
     all['numbers'] = len(all['list'])
     return JsonResponse(all)
+
+
+def register_competition(request)
