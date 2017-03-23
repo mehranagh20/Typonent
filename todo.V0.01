@@ -2,13 +2,7 @@
 # add timer for upcoming competitions to see how much time is left for the competition. --> done
 # add register view for competition and check req of the competition.
 # add register link for comp.
-<<<<<<< HEAD
 # only logged in users can see competitions :) --> done
 # add is_logged_in in authentication service, change app.comp.ts base on it. --> done
 # use is_logged_in for letting users see competitions or not. --> done
 # get date from server not the client --> done
-=======
-# only logged in users can see competitions :)
-# add is_logged_in in authentication service, change app.comp.ts base on it.
-# use is_logged_in for letting users see competitions or not.
->>>>>>> 2b52f1d7d7653c3a43095e6d160369bc277b160c
