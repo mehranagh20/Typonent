@@ -17,7 +17,8 @@
        <td>{{cmp.duration}}</td>
        <td>{{cmp.time_representation}}</td>
        <td>
-         <button md-button (click)="register_competition(cmp.id)">Click To Register</button>
+         <button *ngIf="cmp.registration_open" md-button (click)="register_competition(cmp.id)">Click To Register</button>
+         <label *ngIf="!cmp.registration_open">{{cmp.registration_time_representation}}</label>
        </td>
      </tr>
    </table>
@@ -43,6 +44,11 @@
         <td>{{cmp.duration}}</td>
       </tr>
     </table>
+    <br/>
+    <button style="margin: auto ; display: block;" md-icon-button color="warn" (click)="load_past_comp()">
+      <md-icon>expand_more</md-icon>
+    </button>
+
   </md-tab>
 
 </md-tab-group>

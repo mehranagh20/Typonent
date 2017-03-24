@@ -16,7 +16,8 @@ import { RegisterComponent } from './register/register.component';
 import {AuthenticationService} from './authentication.service';
 import { CompetitionsComponent } from './competitions/competitions.component';
 import {CompetitionService} from './competition.service';
-import {AuthGuardService} from './auth-guard.service'
+import {AuthGuardService} from './auth-guard.service';
+import { CompeteComponent } from './compete/compete.component'
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {AuthGuardService} from './auth-guard.service'
     RegisterComponent,
     LoginComponent,
     CompetitionsComponent,
+    CompeteComponent,
 
   ],
   imports: [

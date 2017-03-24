@@ -95,6 +95,34 @@ def past_competition_list(request, nums):
 
 
 def register_competition(request, id):
-    print(request.user)
-    print(Competition.objects.get(pk=id))
-    return JsonResponse({'status': 200})
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 401, 'message': 'log in to register!'}) # unauthorized
+
+    try:
+        competition = Competition.objects.get(id=id)
+    except:
+        return JsonResponse({'status': 400, 'message': 'no competition with your information found!'}) # bad request
+
+    if competition.start_time <= timezone.now():
+        return JsonResponse({'status': 400, 'message': 'this competition has ended!'}) # bad request
+
+    user = request.user
+    requirements = competition.competition.all()
+    print(requirements)
+    for req in requirements:
+        try:
+            inv = req.required_competition.competitors.get(user=user)
+            print(inv)
+            if inv.rank > req.min_rank:
+                return JsonResponse({'status': 403, 'message': 'you do meet the requirements for this competition'}) # forbidden
+        except:
+            return JsonResponse(
+                {'status': 403, 'message': 'you do meet the requirements for this competition'})  # forbidden
+
+    if competition.competitors.filter(user=user):
+        return JsonResponse({'status': 400, 'message': 'you are already registered in this competition!'})
+
+    # user can register in this competition
+    competition.competitors.create(user=user, rank=0)
+
+    return JsonResponse({'status': 200, 'message': 'registered!'})

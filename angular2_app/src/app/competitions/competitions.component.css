@@ -1,5 +1,5 @@
 table {
-  width:70%;
+  width:80%;
   margin:0 auto;
 }
 table, th, td {
@@ -7,7 +7,7 @@ table, th, td {
   border-collapse: collapse;
 }
 th, td {
-  padding: 5px;
+  padding: 17px;
   text-align: left;
 }
 table tr:nth-child(even) {

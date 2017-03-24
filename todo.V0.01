@@ -1,6 +1,6 @@
 # categorize competition view (name, remaining_time, duration, ...) --> done
 # add timer for upcoming competitions to see how much time is left for the competition. --> done
-# add register view for competition and check req of the competition.
+# add register view for competition and check req of the competition. --> done
 # add register link for comp. --> done
 # only logged in users can see competitions :) --> done
 # add is_logged_in in authentication service, change app.comp.ts base on it. --> done
@@ -9,3 +9,4 @@
 # check more than 10 competition, add more link --> done
 # send id for competition. --> done
 # use dialog material for telling that user can not register in that competition. --> done
+# if user is registered, user can go to competition page to wait for competiion to start.

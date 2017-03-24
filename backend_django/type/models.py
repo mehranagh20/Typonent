@@ -89,6 +89,7 @@ class Competition(models.Model):
 
     name = models.CharField(max_length=40)
     start_time = models.DateTimeField()
+    registration_time = models.DateTimeField()
     duration = models.IntegerField(default=0)
     max_competitors = models.IntegerField(default=0)
     user_registered_number = models.IntegerField(default=0)
@@ -104,8 +105,9 @@ class Requirement(models.Model):
     A requirement has a competition.
     '''
 
-    competition = models.ForeignKey(Competition, on_delete=models.CASCADE)
-    min_rank = models.IntegerField(default=0)
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='competition')
+    min_rank = models.IntegerField(default=0, blank=False)
+    required_competition = models.ForeignKey(Competition, default=None, on_delete=models.CASCADE, related_name='required_competition')
 
     def __str__(self):
         return self.competition.name + " " + str(self.min_rank)
@@ -126,7 +128,7 @@ class Involvement(models.Model):
     # ...
 
     def __str__(self):
-        return '{} {}'.format(self.user, self.competition)
+        return '{} {} {}'.format(self.user, self.competition, self.rank)
 
 
 

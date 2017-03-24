@@ -25,6 +25,8 @@ export class CompetitionsComponent implements OnInit {
   upcoming_competitions = [];
   current_date: string;
 
+
+
   cur_date() {
     let date: string;
     this.http.get(this.authenticationService.url + 'getdate').map((res: Response) => res.json()).subscribe(
@@ -42,21 +44,9 @@ export class CompetitionsComponent implements OnInit {
     );
   }
 
-  date_to_remaining_time(date: string, len: number) {
-    // Find the distance between now an the count down date
-    let distance = new Date(date).getTime() - new Date(this.current_date).getTime();
-
-
-    this.upcoming_competitions[len].remaining_time.week = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
-    this.upcoming_competitions[len].remaining_time.days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-    this.upcoming_competitions[len].remaining_time.hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    this.upcoming_competitions[len].remaining_time.minute = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    this.upcoming_competitions[len].remaining_time.second = Math.floor((distance % (1000 * 60)) / 1000);
-  }
-
   json_to_competition(js) {
     return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['user_registered_number'], js['max_competitors']
-      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "");
+      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false);
   }
 
   link_to_local_time(date: string) {
@@ -72,7 +62,8 @@ export class CompetitionsComponent implements OnInit {
       data => {
         for(let js of data['list']) {
           this.upcoming_competitions.push(this.json_to_competition(js));
-          this.date_to_remaining_time(js['start_time'], this.upcoming_competitions.length - 1);
+          this.upcoming_competitions[this.upcoming_competitions.length - 1].date_to_remaining_time(this.current_date);
+          // console.log(this.upcoming_competitions[this.upcoming_competitions.length - 1].remaining_time)
 
         }
         this.upcomingNum += data['numbers'];
@@ -97,29 +88,58 @@ export class CompetitionsComponent implements OnInit {
   }
 
   update_time() {
-    for(let cmp of this.upcoming_competitions) {
-      if (cmp.remaining_time.days == 0 && cmp.remaining_time.week == 0 && !cmp.has_expired) {
-        cmp.remaining_time.second--;
-        if (cmp.remaining_time.second < 0) {
-          cmp.remaining_time.second = 59;
-          cmp.remaining_time.minute--;
-          if (cmp.remaining_time.minute < 0) {
-            cmp.remaining_time.minute = 59;
-            cmp.remaining_time.hour--;
-            if (cmp.remaining_time.hour < 0) cmp.has_expired = true;
-          }
-        }
+    for(let i = 0; i < this.upcoming_competitions.length; i++)
+      this.upcoming_competitions[i].update_time();
 
-      }
-
-      if(cmp.has_expired) {cmp.time_representation = "expired!";}
-      else if(cmp.remaining_time.week > 0)
-        cmp.time_representation = cmp.remaining_time.week + " Week" + (cmp.remaining_time.week > 1 ? "s" : "");
-      else if(cmp.remaining_time.days > 0)
-        cmp.time_representation = cmp.remaining_time.days + " Day" + (cmp.remaining_time.days > 1 ? "s" : "");
-      else
-        cmp.time_representation = String("0" + cmp.remaining_time.hour).slice(-2) + ":" + String("0" + cmp.remaining_time.minute).slice(-2) + ":" + String("0" + cmp.remaining_time.second).slice(-2);
-    }
+    // for(let cmp of this.upcoming_competitions) {
+    //   // deal with registration start time of competition
+    //   if (cmp.registration_remaining_time.days <= 0 && cmp.registration_remaining_time.week <= 0 && !cmp.registration_open) {
+    //     cmp.registration_remaining_time.second--;
+    //     if (cmp.registration_remaining_time.second < 0) {
+    //       cmp.registration_remaining_time.second = 59;
+    //       cmp.registration_remaining_time.minute--;
+    //       if (cmp.registration_remaining_time.minute < 0) {
+    //         cmp.registration_remaining_time.minute = 59;
+    //         cmp.registration_remaining_time.hour--;
+    //         if (cmp.registration_remaining_time.hour < 0) cmp.registration_open = true;
+    //       }
+    //     }
+    //   }
+    //
+    //   if(cmp.registration_remaining_time.week > 0)
+    //     cmp.registration_time_representation = cmp.registration_remaining_time.week + " Week" + (cmp.registration_remaining_time.week > 1 ? "s" : "");
+    //   else if(cmp.registration_remaining_time.days > 0)
+    //     cmp.registration_time_representation = cmp.registration_remaining_time.days + " Day" + (cmp.registration_remaining_time.days > 1 ? "s" : "");
+    //   else
+    //     cmp.registration_time_representation = String("0" + cmp.registration_remaining_time.hour).slice(-2) + ":" + String("0" + cmp.registration_remaining_time.minute).slice(-2) + ":" + String("0" + cmp.registration_remaining_time.second).slice(-2);
+    //
+    //
+    //
+    //
+    //
+    //
+    //   // deal with start_time of competition
+    //   if (cmp.remaining_time.days == 0 && cmp.remaining_time.week == 0 && !cmp.has_expired) {
+    //     cmp.remaining_time.second--;
+    //     if (cmp.remaining_time.second < 0) {
+    //       cmp.remaining_time.second = 59;
+    //       cmp.remaining_time.minute--;
+    //       if (cmp.remaining_time.minute < 0) {
+    //         cmp.remaining_time.minute = 59;
+    //         cmp.remaining_time.hour--;
+    //         if (cmp.remaining_time.hour < 0) cmp.has_expired = true;
+    //       }
+    //     }
+    //   }
+    //
+    //   if(cmp.has_expired) {cmp.time_representation = "expired!";}
+    //   else if(cmp.remaining_time.week > 0)
+    //     cmp.time_representation = cmp.remaining_time.week + " Week" + (cmp.remaining_time.week > 1 ? "s" : "");
+    //   else if(cmp.remaining_time.days > 0)
+    //     cmp.time_representation = cmp.remaining_time.days + " Day" + (cmp.remaining_time.days > 1 ? "s" : "");
+    //   else
+    //     cmp.time_representation = String("0" + cmp.remaining_time.hour).slice(-2) + ":" + String("0" + cmp.remaining_time.minute).slice(-2) + ":" + String("0" + cmp.remaining_time.second).slice(-2);
+    // }
   }
 
   register_competition(id: number) {
@@ -127,10 +147,10 @@ export class CompetitionsComponent implements OnInit {
       .subscribe(
         data => {
           if(data['status'] == 200) {
-            this.openSnackBar("You are registered", "Successful");
+            this.openSnackBar(data['message'], "Successful");
           }
           else {
-            this.openSnackBar("You Can Not Register In This Competition", "Failed");
+            this.openSnackBar(data['message'], "Failed");
           }
         },
         error => {
@@ -143,7 +163,7 @@ export class CompetitionsComponent implements OnInit {
 
   openSnackBar(message: string, status: string) {
     this.snackBar.open(message, status, {
-      duration: 3000,
+      duration: 4000,
     });
   }
 
