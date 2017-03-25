@@ -10,5 +10,4 @@
 # send id for competition. --> done
 # use dialog material for telling that user can not register in that competition. --> done
 # if user is registered, user can go to competition page to wait for competiion to start.
-# move json to competition function to competition class.
 # if a user is registerd in a competition then user must see link to that competition. --> done
