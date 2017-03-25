@@ -14,7 +14,10 @@ export class Competition {
               public registration_time: string,
               public registration_remaining_time: CompetitionRemainingTime,
               public registration_time_representation: string,
-              public registration_open: boolean) {
+              public registration_open: boolean,
+              public is_registered: boolean
+
+    ) {
   }
 
 
@@ -90,6 +93,14 @@ export class Competition {
       else
         this.time_representation = String("0" + this.remaining_time.hour).slice(-2) + ":" + String("0" + this.remaining_time.minute).slice(-2) + ":" + String("0" + this.remaining_time.second).slice(-2);
 
+  }
+
+  link_to_local_time() {
+    let d = new Date(this.start_time);
+    let link = "https://www.timeanddate.com/worldclock/fixedtime.html?day=" + d.getUTCDate() +
+      "&month=" + d.getUTCMonth() + "&year=" + d.getUTCFullYear() + "&hour=" + d.getUTCHours() +
+      "&min=" + d.getUTCMinutes() + "&sec=" + d.getUTCSeconds();
+    return link;
   }
 
 }

@@ -7,6 +7,7 @@ from django.middleware import csrf
 import json
 from django.utils import timezone
 import datetime
+from datetime import timedelta
 
 
 def register(request):
@@ -79,7 +80,17 @@ def upcoming_competition_list(request, nums):
     comps = Competition.objects.filter(start_time__gt=timezone.now())
     comps = sorted(comps, key=lambda k: k.start_time)
 
-    all = {'list': [CompetitionSerializer(cmp).data for cmp in comps[nums:nums + 10]]}
+    need = comps[nums:nums + 10]
+    all = {'list': [CompetitionSerializer(cmp).data for cmp in need]}
+
+    for i in range(len(need)):
+        try:
+            need[i].competitors.get(user=request.user)
+            all['list'][i]['registered'] = 1
+            print(all['list'][i])
+        except:
+            all['list'][i]['registered'] = 0
+
     all['numbers'] = len(all['list'])
     return JsonResponse(all)
 
@@ -107,13 +118,15 @@ def register_competition(request, id):
         return JsonResponse({'status': 400, 'message': 'this competition has ended!'}) # bad request
 
     user = request.user
-    requirements = competition.competition.all()
-    print(requirements)
+    requirements = competition.requirements.all()
     for req in requirements:
         try:
+            # user can only register in competitions that requirements for that competition are met by user
+            # so the requirements must have finished and passed by 3 minutes so that the result is clear.
+            time_to_finish = req.required_competition.start_time + timedelta(seconds=req.required_competition.duration + 3 * 60)
+
             inv = req.required_competition.competitors.get(user=user)
-            print(inv)
-            if inv.rank > req.min_rank:
+            if inv.rank > req.min_rank or timezone.now() <= time_to_finish:
                 return JsonResponse({'status': 403, 'message': 'you do meet the requirements for this competition'}) # forbidden
         except:
             return JsonResponse(
@@ -126,3 +139,27 @@ def register_competition(request, id):
     competition.competitors.create(user=user, rank=0)
 
     return JsonResponse({'status': 200, 'message': 'registered!'})
+
+
+def get_competition(request, id):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 401, 'message': 'Unauthorized'})
+
+    try:
+        competition = Competition.objects.get(id=id)
+
+        now = timezone.now()
+        if competition.start_time < now:
+            return JsonResponse({'status': 400, 'message': 'competition has started or finished!'})
+
+        try:
+            competition.competitors.get(user=request.user)
+            data = CompetitionSerializer(competition).data
+            data['status'] = 200
+            return JsonResponse(data)
+
+        except:
+            return JsonResponse({'status': 400, 'message': 'your are not registered in this competition!'})
+
+    except:
+        return JsonResponse({'status': 400, 'message': 'no competition with information provided!'})

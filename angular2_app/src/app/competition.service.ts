@@ -8,6 +8,7 @@ import {Competition} from './competition'
 @Injectable()
 export class CompetitionService {
   url: string = "http://127.0.0.1:8000/";
+  competition: Competition;
 
   constructor(private http: Http, private cookieService: CookieService, private csrf: XSRFStrategy) { }
 
@@ -17,6 +18,10 @@ export class CompetitionService {
 
   get_past_competitions(num: number) {
     return this.http.get(this.url + 'pastComps/' + num).map((res: Response) => res.json());
+  }
+
+  get_competition(id: string) {
+    return this.http.get(this.url + 'getcompetition/' + id).map((res: Response) => res.json());
   }
 
 

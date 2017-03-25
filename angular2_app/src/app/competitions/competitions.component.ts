@@ -46,15 +46,7 @@ export class CompetitionsComponent implements OnInit {
 
   json_to_competition(js) {
     return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['user_registered_number'], js['max_competitors']
-      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false);
-  }
-
-  link_to_local_time(date: string) {
-    let d = new Date(date);
-    let link = "https://www.timeanddate.com/worldclock/fixedtime.html?day=" + d.getUTCDate() +
-      "&month=" + d.getUTCMonth() + "&year=" + d.getUTCFullYear() + "&hour=" + d.getUTCHours() +
-        "&min=" + d.getUTCMinutes() + "&sec=" + d.getUTCSeconds();
-    return link;
+      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false, js['registered']);
   }
 
   load_up_comp() {
@@ -90,56 +82,6 @@ export class CompetitionsComponent implements OnInit {
   update_time() {
     for(let i = 0; i < this.upcoming_competitions.length; i++)
       this.upcoming_competitions[i].update_time();
-
-    // for(let cmp of this.upcoming_competitions) {
-    //   // deal with registration start time of competition
-    //   if (cmp.registration_remaining_time.days <= 0 && cmp.registration_remaining_time.week <= 0 && !cmp.registration_open) {
-    //     cmp.registration_remaining_time.second--;
-    //     if (cmp.registration_remaining_time.second < 0) {
-    //       cmp.registration_remaining_time.second = 59;
-    //       cmp.registration_remaining_time.minute--;
-    //       if (cmp.registration_remaining_time.minute < 0) {
-    //         cmp.registration_remaining_time.minute = 59;
-    //         cmp.registration_remaining_time.hour--;
-    //         if (cmp.registration_remaining_time.hour < 0) cmp.registration_open = true;
-    //       }
-    //     }
-    //   }
-    //
-    //   if(cmp.registration_remaining_time.week > 0)
-    //     cmp.registration_time_representation = cmp.registration_remaining_time.week + " Week" + (cmp.registration_remaining_time.week > 1 ? "s" : "");
-    //   else if(cmp.registration_remaining_time.days > 0)
-    //     cmp.registration_time_representation = cmp.registration_remaining_time.days + " Day" + (cmp.registration_remaining_time.days > 1 ? "s" : "");
-    //   else
-    //     cmp.registration_time_representation = String("0" + cmp.registration_remaining_time.hour).slice(-2) + ":" + String("0" + cmp.registration_remaining_time.minute).slice(-2) + ":" + String("0" + cmp.registration_remaining_time.second).slice(-2);
-    //
-    //
-    //
-    //
-    //
-    //
-    //   // deal with start_time of competition
-    //   if (cmp.remaining_time.days == 0 && cmp.remaining_time.week == 0 && !cmp.has_expired) {
-    //     cmp.remaining_time.second--;
-    //     if (cmp.remaining_time.second < 0) {
-    //       cmp.remaining_time.second = 59;
-    //       cmp.remaining_time.minute--;
-    //       if (cmp.remaining_time.minute < 0) {
-    //         cmp.remaining_time.minute = 59;
-    //         cmp.remaining_time.hour--;
-    //         if (cmp.remaining_time.hour < 0) cmp.has_expired = true;
-    //       }
-    //     }
-    //   }
-    //
-    //   if(cmp.has_expired) {cmp.time_representation = "expired!";}
-    //   else if(cmp.remaining_time.week > 0)
-    //     cmp.time_representation = cmp.remaining_time.week + " Week" + (cmp.remaining_time.week > 1 ? "s" : "");
-    //   else if(cmp.remaining_time.days > 0)
-    //     cmp.time_representation = cmp.remaining_time.days + " Day" + (cmp.remaining_time.days > 1 ? "s" : "");
-    //   else
-    //     cmp.time_representation = String("0" + cmp.remaining_time.hour).slice(-2) + ":" + String("0" + cmp.remaining_time.minute).slice(-2) + ":" + String("0" + cmp.remaining_time.second).slice(-2);
-    // }
   }
 
   register_competition(id: number) {
@@ -148,6 +90,8 @@ export class CompetitionsComponent implements OnInit {
         data => {
           if(data['status'] == 200) {
             this.openSnackBar(data['message'], "Successful");
+            for(let c of this.upcoming_competitions)
+              if(c.id == id) c.is_registered = 1;
           }
           else {
             this.openSnackBar(data['message'], "Failed");

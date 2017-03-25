@@ -12,13 +12,14 @@
      <tr *ngFor="let cmp of upcoming_competitions">
        <td>{{cmp.name}}</td>
        <td>
-         <a target="_blank" href="{{link_to_local_time(cmp.start_time)}}">{{cmp.start_time}}</a>
+         <a target="_blank" href="{{cmp.link_to_local_time()}}">{{cmp.start_time}}</a>
        </td>
        <td>{{cmp.duration}}</td>
        <td>{{cmp.time_representation}}</td>
        <td>
-         <button *ngIf="cmp.registration_open" md-button (click)="register_competition(cmp.id)">Click To Register</button>
-         <label *ngIf="!cmp.registration_open">{{cmp.registration_time_representation}}</label>
+         <button *ngIf="cmp.registration_open && !cmp.is_registered" md-button (click)="register_competition(cmp.id)">Click To Register</button>
+         <label *ngIf="!cmp.registration_open && !cmp.is_registered">{{cmp.registration_time_representation}}</label>
+         <button md-button color="warn" *ngIf="cmp.is_registered" [routerLink]="['/compete', cmp.id]">Go to competition</button>
        </td>
      </tr>
    </table>
@@ -39,7 +40,7 @@
       <tr *ngFor="let cmp of past_competitions">
         <td>{{cmp.name}}</td>
         <td>
-          <a target="_blank" href="{{link_to_local_time(cmp.start_time)}}">{{cmp.start_time}}</a>
+          <a target="_blank" href="{{cmp.link_to_local_time()}}">{{cmp.start_time}}</a>
         </td>
         <td>{{cmp.duration}}</td>
       </tr>

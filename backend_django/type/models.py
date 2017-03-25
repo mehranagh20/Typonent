@@ -105,9 +105,9 @@ class Requirement(models.Model):
     A requirement has a competition.
     '''
 
-    competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='competition')
+    competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='requirements')
     min_rank = models.IntegerField(default=0, blank=False)
-    required_competition = models.ForeignKey(Competition, default=None, on_delete=models.CASCADE, related_name='required_competition')
+    required_competition = models.ForeignKey(Competition, default=None, on_delete=models.CASCADE, related_name='requires')
 
     def __str__(self):
         return self.competition.name + " " + str(self.min_rank)

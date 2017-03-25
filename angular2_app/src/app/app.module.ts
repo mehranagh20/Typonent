@@ -4,8 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, XSRFStrategy, CookieXSRFStrategy} from '@angular/http';
 import {CookieService} from 'angular2-cookie/core';
 import {MaterialModule, MdSnackBar} from '@angular/material';
-import {AccordionModule} from 'primeng/primeng';     //accordion and accordion tab
-// import {MenuItem} from 'primeng/primeng';            //api
+import {ActivatedRoute} from '@angular/router'
 
 import {DataTableModule, MenuItem} from 'primeng/primeng';
 
@@ -18,6 +17,7 @@ import { CompetitionsComponent } from './competitions/competitions.component';
 import {CompetitionService} from './competition.service';
 import {AuthGuardService} from './auth-guard.service';
 import { CompeteComponent } from './compete/compete.component'
+import {CompetitionGuardService} from './competition-guard.service'
 
 @NgModule({
   declarations: [
@@ -31,7 +31,6 @@ import { CompeteComponent } from './compete/compete.component'
 
   ],
   imports: [
-    AccordionModule,
     DataTableModule,
     BrowserModule,
     FormsModule,
@@ -41,6 +40,7 @@ import { CompeteComponent } from './compete/compete.component'
 
   ],
   providers: [
+    CompetitionGuardService,
     MdSnackBar,
     AuthGuardService,
     AuthenticationService, CookieService,
