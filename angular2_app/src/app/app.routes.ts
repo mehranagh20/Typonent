@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
   {path: 'competitions', canActivate: [AuthGuardService], component: CompetitionsComponent},
-  {path: 'compete/:id', canActivate:[CompetitionGuardService], component: CompeteComponent}
+  {path: 'compete/:id', canActivate:[AuthGuardService, CompetitionGuardService], component: CompeteComponent}
 
 ];
 

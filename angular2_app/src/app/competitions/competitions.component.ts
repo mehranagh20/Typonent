@@ -29,7 +29,7 @@ export class CompetitionsComponent implements OnInit {
 
   cur_date() {
     let date: string;
-    this.http.get(this.authenticationService.url + 'getdate').map((res: Response) => res.json()).subscribe(
+    this.compService.cur_date().subscribe(
       data => {
         this.current_date = data['date'];
 
@@ -45,7 +45,7 @@ export class CompetitionsComponent implements OnInit {
   }
 
   json_to_competition(js) {
-    return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['user_registered_number'], js['max_competitors']
+    return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['max_competitors']
       , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false, js['registered']);
   }
 

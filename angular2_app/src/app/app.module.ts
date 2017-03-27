@@ -17,7 +17,8 @@ import { CompetitionsComponent } from './competitions/competitions.component';
 import {CompetitionService} from './competition.service';
 import {AuthGuardService} from './auth-guard.service';
 import { CompeteComponent } from './compete/compete.component'
-import {CompetitionGuardService} from './competition-guard.service'
+import {CompetitionGuardService} from './competition-guard.service';
+import { WaitingToStartComponent } from './waiting-to-start/waiting-to-start.component'
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {CompetitionGuardService} from './competition-guard.service'
     LoginComponent,
     CompetitionsComponent,
     CompeteComponent,
+    WaitingToStartComponent,
 
   ],
   imports: [
@@ -44,9 +46,13 @@ import {CompetitionGuardService} from './competition-guard.service'
     MdSnackBar,
     AuthGuardService,
     AuthenticationService, CookieService,
-    { provide: XSRFStrategy, useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken') },
+
     CompetitionService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
+  entryComponents: [
+    WaitingToStartComponent,
+  ],
 })
 export class AppModule { }

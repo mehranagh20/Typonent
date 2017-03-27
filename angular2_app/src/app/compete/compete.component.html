@@ -1,3 +1,27 @@
-<p>
-  compete works!
-</p>
+<!--<div>-->
+  <!--<span *ngFor="let c of text let ind = index" id="{{ind}}" [ngClass]="{'correct': correct_class(ind, box.value), 'wrong': wrong_class(ind, box.value), 'current': current_class(ind,-->
+  <!--box.value)}"><span *ngIf="c != '\n'">{{c}}</span><span *ngIf="c == '\n'">&crarr;</span><p *ngIf="c == '\n'"></p></span>-->
+<!--</div>-->
+<div *ngIf="!started" class="before_start">
+  <p style="font-size: 40px;">Time To Start:</p>
+  <div style="font-size: 80px;">
+  {{competition.time_representation}}
+  </div>
+</div>
+
+
+<div *ngIf="started">
+  <div class="text">
+  <div *ngFor="let line of text let ind=index" class="line">
+
+    <span *ngIf="ind >= start_line"><span>{{line[0]}}</span><span *ngFor="let c of line[1].split('') let cur_ind=index;" [ngClass]="{'correct': correct_class(line_char_count[ind] + cur_ind, box.value),
+    'wrong': wrong_class(line_char_count[ind] + cur_ind, box.value), 'current': current_class(line_char_count[ind] + cur_ind, box.value)}"
+      >{{c}}</span><span *ngIf="ind < text.length - 1"
+      [ngClass]="{'correct': correct_class(line_char_count[ind + 1] - 1, box.value),
+    'wrong': wrong_class(line_char_count[ind + 1] - 1, box.value), 'current': current_class(line_char_count[ind + 1] - 1, box.value)}">&crarr;</span></span>
+
+  </div>
+  </div>
+  <br/><br/>
+  <textarea [(ngModel)]="typed" autofocus (blur)="box.focus()" placeholder="When Starts, Just Type" rows="5" cols="60" #box (keypress)="key_pressed()" (keyup)="key_pressed()" id="txtarea"></textarea>
+</div>

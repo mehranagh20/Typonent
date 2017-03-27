@@ -91,8 +91,10 @@ class Competition(models.Model):
     start_time = models.DateTimeField()
     registration_time = models.DateTimeField()
     duration = models.IntegerField(default=0)
+
+    # if -1 then infinite user can register
     max_competitors = models.IntegerField(default=0)
-    user_registered_number = models.IntegerField(default=0)
+    # user_registered_number = models.IntegerField(default=0)
     text = models.ForeignKey(Text, on_delete=models.CASCADE)
 
     def __str__(self):

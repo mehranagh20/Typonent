@@ -24,6 +24,9 @@ export class CompetitionService {
     return this.http.get(this.url + 'getcompetition/' + id).map((res: Response) => res.json());
   }
 
+  cur_date() {
+    return this.http.get(this.url + 'getdate').map((res: Response) => res.json());
+  }
 
 
 }

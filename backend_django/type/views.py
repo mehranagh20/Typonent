@@ -114,6 +114,9 @@ def register_competition(request, id):
     except:
         return JsonResponse({'status': 400, 'message': 'no competition with your information found!'}) # bad request
 
+    if competition.max_competitors != -1 and competition.max_competitors <= competition.competitors.all().count():
+        return JsonResponse({'status': 400, 'message': 'this competition is full!'})
+
     if competition.start_time <= timezone.now():
         return JsonResponse({'status': 400, 'message': 'this competition has ended!'}) # bad request
 
