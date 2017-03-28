@@ -45,8 +45,9 @@ export class CompetitionsComponent implements OnInit {
   }
 
   json_to_competition(js) {
-    return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['max_competitors']
-      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false, js['registered']);
+    return new Competition(js['id'], js['name'], js['start_time'], js['competition_close_time'], js['registration_close_time'], js['duration'], js['max_competitors']
+      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false, js['registered'],
+          this.compService);
   }
 
   load_up_comp() {
@@ -54,8 +55,12 @@ export class CompetitionsComponent implements OnInit {
       data => {
         for(let js of data['list']) {
           this.upcoming_competitions.push(this.json_to_competition(js));
-          this.upcoming_competitions[this.upcoming_competitions.length - 1].date_to_remaining_time(this.current_date);
-          // console.log(this.upcoming_competitions[this.upcoming_competitions.length - 1].remaining_time)
+
+          let len = this.upcoming_competitions.length - 1;
+          this.upcoming_competitions[len].registration_remaining_time =
+              this.upcoming_competitions[len].date_to_remaining_time(this.current_date, this.upcoming_competitions[len].registration_time);
+          this.upcoming_competitions[len].remaining_time =
+            this.upcoming_competitions[len].date_to_remaining_time(this.current_date, this.upcoming_competitions[len].start_time);
 
         }
         this.upcomingNum += data['numbers'];

@@ -89,12 +89,13 @@ class Competition(models.Model):
 
     name = models.CharField(max_length=40)
     start_time = models.DateTimeField()
+    competition_close_time = models.DateTimeField()
     registration_time = models.DateTimeField()
+    registration_close_time = models.DateTimeField()
     duration = models.IntegerField(default=0)
 
     # if -1 then infinite user can register
     max_competitors = models.IntegerField(default=0)
-    # user_registered_number = models.IntegerField(default=0)
     text = models.ForeignKey(Text, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -124,14 +125,15 @@ class Involvement(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='achievements')
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='competitors')
     rank = models.IntegerField(default=0)
+    started_competition = models.BooleanField(default=False)
 
-    # information about contestant
-    # like wpm
-    # ...
+    wpm = models.IntegerField(default=0)
+    correct_char_number = models.IntegerField(default=0)
+    wrong_char_number = models.IntegerField(default=0)
+    total_keystrokes = models.IntegerField(default=0)
+    time_passed = models.IntegerField(default=0)
 
     def __str__(self):
-        return '{} {} {}'.format(self.user, self.competition, self.rank)
-
-
+        return '{} {} {}'.format(self.user, self.competition, self.wpm)
 
 

@@ -28,5 +28,14 @@ export class CompetitionService {
     return this.http.get(this.url + 'getdate').map((res: Response) => res.json());
   }
 
+  start_competition(id: number) {
+    return this.http.get(this.url + 'startcompetition/' + id).map((res: Response) => res.json());
+  }
+
+  send_info(time: number, cor: number, wro: number, tot: number, id: number, finished: boolean) {
+    return this.http.post(this.url + "recieveinfo/", JSON.stringify({'time': time, 'correct': cor, 'wrong': wro, 'total': tot, 'id': id, 'finished': finished}))
+      .map((res: Response) => res.json());
+  }
+
 
 }

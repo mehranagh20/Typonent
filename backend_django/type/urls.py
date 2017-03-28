@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^getdate/$', views.cur_date),
     url(r'^registerComp/([0-9]+)$', views.register_competition),
     url(r'^getcompetition/([0-9]*)/$', views.get_competition),
+    url(r'^startcompetition/([0-9]*)/$', views.start_competition),
+    url(r'^recieveinfo/$', views.my_rank)
 
 
 ]

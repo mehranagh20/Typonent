@@ -7,12 +7,13 @@ import {checkBinding} from "@angular/core/src/linker/view_utils";
 import {Competition} from './competition'
 import {CompetitionRemainingTime} from './competition-remaining-time'
 import {Observable} from "rxjs";
+import {MdSnackBar} from '@angular/material'
 
 
 @Injectable()
 export class CompetitionGuardService implements CanActivate {
 
-  constructor(private competitionService: CompetitionService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private competitionService: CompetitionService, private router: Router, private route: ActivatedRoute, private snackBar: MdSnackBar) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     // if(route.url.length < 2 || !isNumeric(route.url[1]['path'])) return false;
@@ -20,11 +21,10 @@ export class CompetitionGuardService implements CanActivate {
   }
 
   json_to_competition(js) {
-    return new Competition(js['id'], js['name'], js['start_time'], js['duration'], js['max_competitors']
-      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false, js['registered']);
+    return new Competition(js['id'], js['name'], js['start_time'], js['competition_close_time'], js['registration_close_time'], js['duration'], js['max_competitors']
+      , new CompetitionRemainingTime(0, 0, 0, 0, 0), false, "", js['registration_time'], new CompetitionRemainingTime(0, 0, 0, 0, 0), "", false, js['registered'],
+          this.competitionService);
   }
-
-  isok = false;
 
   check(id: string) {
     return this.competitionService.get_competition(id).map(
@@ -35,6 +35,7 @@ export class CompetitionGuardService implements CanActivate {
         }
         else {
           console.log(data);
+          this.snackBar.open(data['message'], 'failed', {duration: 4000});
           return false;
         }
       },

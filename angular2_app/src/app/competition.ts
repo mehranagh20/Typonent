@@ -1,12 +1,18 @@
 import {CompetitionRemainingTime} from './competition-remaining-time'
+import {CompetitionService} from './competition.service'
 
 export class Competition {
 
-  public message_for_finish = "Expired!";
+  public message_for_finish = "Competition is running!";
+  public registration_time_link: string;
+  public start_time_link: string;
+  public competition_close_time_link: string;
 
   constructor(public id: number,
               public name: string,
               public start_time: string,
+              public competition_close_time: string,
+              public registration_close_time: string,
               public duration: number,
               public max_competitors: number,
               public remaining_time: CompetitionRemainingTime,
@@ -16,38 +22,35 @@ export class Competition {
               public registration_remaining_time: CompetitionRemainingTime,
               public registration_time_representation: string,
               public registration_open: boolean,
-              public is_registered: boolean
+              public is_registered: boolean,
+              private compService: CompetitionService
 
     ) {
+    this.registration_time_link = this.link_to_local_time(this.registration_close_time);
+    this.start_time_link = this.link_to_local_time(this.start_time);
+    this.competition_close_time_link = this.link_to_local_time(this.competition_close_time);
   }
 
 
-  date_to_remaining_time(current_date: string) {
+  date_to_remaining_time(current_date: string, start_time: string): CompetitionRemainingTime {
     // deal with start time of competition
     // Find the distance between now an the count down date
-    let distance = new Date(this.start_time).getTime() - new Date(current_date).getTime();
+    let distance = new Date(start_time).getTime() - new Date(current_date).getTime();
+    let rem_time = new CompetitionRemainingTime(0, 0, 0, 0, 0);
 
-    this.remaining_time.week = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
-    this.remaining_time.days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-    this.remaining_time.hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    this.remaining_time.minute = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    this.remaining_time.second = Math.floor((distance % (1000 * 60)) / 1000);
+    rem_time.week = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
+    rem_time.days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
+    rem_time.hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    rem_time.minute = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    rem_time.second = Math.floor((distance % (1000 * 60)) / 1000);
+    return rem_time;
 
-
-    // deal with start registration time of competition
-    distance = new Date(this.registration_time).getTime() - new Date(current_date).getTime();
-
-    this.registration_remaining_time.week = Math.floor(distance / (1000 * 60 * 60 * 24 * 7));
-    this.registration_remaining_time.days = Math.floor((distance % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24));
-    this.registration_remaining_time.hour = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    this.registration_remaining_time.minute = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    this.registration_remaining_time.second = Math.floor((distance % (1000 * 60)) / 1000);
   }
 
 
   update_time() {
     // deal with registration start time of competition
-    if (this.registration_remaining_time.days <= 0 && this.registration_remaining_time.week <= 0 && !this.registration_open) {
+    if (this.registration_remaining_time.days <= 0 && this.registration_remaining_time.week <= 0 && !this.registration_open ) {
       this.registration_remaining_time.second--;
       if (this.registration_remaining_time.second < 0) {
         this.registration_remaining_time.second = 59;
@@ -70,7 +73,7 @@ export class Competition {
 
       // deal with start_time of competition
       // console.log(this.remaining_time);
-      if (this.remaining_time.days == 0 && this.remaining_time.week == 0 && !this.has_expired) {
+      if (this.remaining_time.days <= 0 && this.remaining_time.week <= 0 && !this.has_expired) {
         this.remaining_time.second--;
         // console.log('substractin');
         if (this.remaining_time.second < 0) {
@@ -96,8 +99,8 @@ export class Competition {
 
   }
 
-  link_to_local_time() {
-    let d = new Date(this.start_time);
+  link_to_local_time(date: string) {
+    let d = new Date(date);
     let link = "https://www.timeanddate.com/worldclock/fixedtime.html?day=" + d.getUTCDate() +
       "&month=" + d.getUTCMonth() + "&year=" + d.getUTCFullYear() + "&hour=" + d.getUTCHours() +
       "&min=" + d.getUTCMinutes() + "&sec=" + d.getUTCSeconds();

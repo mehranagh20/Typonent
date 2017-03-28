@@ -4,7 +4,8 @@
     <table>
      <tr>
        <th>Competition Name</th>
-       <th>Start</th>
+       <th>Competition Timing</th>
+       <th>Registration Close Time</th>
        <th>Length</th>
        <th>Before Start</th>
        <th>Register</th>
@@ -12,7 +13,12 @@
      <tr *ngFor="let cmp of upcoming_competitions">
        <td>{{cmp.name}}</td>
        <td>
-         <a target="_blank" href="{{cmp.link_to_local_time()}}">{{cmp.start_time}}</a>
+         <a target="_blank" href="{{cmp.start_time_link}}">Start time</a>
+         <br/>
+         <a target="_blank" href="{{cmp.competition_close_time_link}}">Close time</a>
+       </td>
+       <td>
+         <a href="{{cmp.registration_time_link}}" target="_blank">Registration Close Time</a>
        </td>
        <td>{{cmp.duration}}</td>
        <td>{{cmp.time_representation}}</td>

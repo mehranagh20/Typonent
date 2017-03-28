@@ -2,15 +2,46 @@
   <!--<span *ngFor="let c of text let ind = index" id="{{ind}}" [ngClass]="{'correct': correct_class(ind, box.value), 'wrong': wrong_class(ind, box.value), 'current': current_class(ind,-->
   <!--box.value)}"><span *ngIf="c != '\n'">{{c}}</span><span *ngIf="c == '\n'">&crarr;</span><p *ngIf="c == '\n'"></p></span>-->
 <!--</div>-->
-<div *ngIf="!started" class="before_start">
-  <p style="font-size: 40px;">Time To Start:</p>
+
+
+<div class="before_start" *ngIf="!can_start">
+  <p style="font-size: 40px;">Remaining Time Before Competition Begins:</p>
   <div style="font-size: 80px;">
-  {{competition.time_representation}}
+    {{competition.time_representation}}
   </div>
 </div>
 
+<div *ngIf="!started && can_start" class="before_start">
+  <p style="font-size: 40px;">Remaining Time To Start:</p>
+  <div style="font-size: 80px;">
+  {{competition.time_representation}}
+  </div>
+  <br/>
+  <h2 style="color: forestgreen;">You will automatically redirected to competition page after time finished or click Start to start sooner.</h2>
+  <br/>
+  <button style="width: 50px;" color="accent" md-raised-button (click)="start_sooner()">Start</button>
+</div>
 
-<div *ngIf="started">
+
+<div *ngIf="started && can_start">
+
+  <div style="width: 70%; margin: 0 auto; text-align: center">
+    <pre style="font-size: 20px">YOUR RANK: {{my_rank}}</pre>
+    <md-progress-bar id="first"
+                     color="accent"
+                     mode="buffer"
+                     [value]="(my_wpm / max_wpm) * 100"
+                     [bufferValue]="(next_wpm / max_wpm) * 100">
+    </md-progress-bar>
+    <br/>
+    <pre style="font-size: 20px" *ngIf="my_rank > 1">RANK AHEAD: {{my_rank - 1}}</pre>
+    <md-progress-bar *ngIf="my_rank > 1"
+      color="accent"
+      mode="buffer"
+      [value]="(next_wpm / max_wpm) * 100">
+    </md-progress-bar>
+  </div>
+  <br/>
   <div class="text">
   <div *ngFor="let line of text let ind=index" class="line">
 
@@ -23,5 +54,5 @@
   </div>
   </div>
   <br/><br/>
-  <textarea [(ngModel)]="typed" autofocus (blur)="box.focus()" placeholder="When Starts, Just Type" rows="5" cols="60" #box (keypress)="key_pressed()" (keyup)="key_pressed()" id="txtarea"></textarea>
+  <textarea disabled="{{finished}}" [(ngModel)]="typed" autofocus (blur)="box.focus()" placeholder="When Starts, Just Type" rows="5" cols="60" #box (keydown.tab)="check($event)" (keyup)="key_pressed()" id="txtarea"></textarea>
 </div>
