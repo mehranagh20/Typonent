@@ -41,7 +41,7 @@
 
     <br/><br/>
     <p *ngIf="!notRobot" style="color: red;">Do The Captcha</p>
-    <re-captcha (captchaResponse)="handle_not_robot($event)" site_key="6LdN2RoUAAAAAMCdLrdgOFU6aP8CPiAWhAehiHgP"></re-captcha>
+    <re-captcha *ngIf="!notRobot" (captchaResponse)="handle_not_robot($event)" site_key="6LdN2RoUAAAAAMCdLrdgOFU6aP8CPiAWhAehiHgP"></re-captcha>
     <br/>
 
   <button disabled="{{!notRobot}}" md-raised-button color="primary" type="submit">{{formm.form.valid ? "Register" : "Invalid Inputs"}}</button>
