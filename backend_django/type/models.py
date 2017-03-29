@@ -28,13 +28,15 @@ class User(AbstractBaseUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
 
+    hash = models.TextField(default="")
+    is_active = models.BooleanField(default=False)
+
     is_admin = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     is_superuser = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
 
     objects = UserManager()
 
@@ -96,7 +98,7 @@ class Competition(models.Model):
 
     # if -1 then infinite user can register
     max_competitors = models.IntegerField(default=0)
-    text = models.ForeignKey(Text, on_delete=models.CASCADE)
+    text = models.ManyToManyField(Text)
 
     def __str__(self):
         return self.name

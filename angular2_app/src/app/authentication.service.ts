@@ -27,4 +27,13 @@ export class AuthenticationService {
     return localStorage.getItem('user');
   }
 
+  activate(id: string, hash:string) {
+    return this.http.get(this.url + "activeaccount/" + "?" + "id=" + id + "&" + "hash=" + hash).map((res: Response) => res.json());
+  }
+
+  generate_link(email: string) {
+    return this.http.post(this.url + 'generatehash/', JSON.stringify({'email': email}))
+      .map((res: Response) => res.json());
+  }
+
 }

@@ -1,0 +1,23 @@
+<!--<div style="width: 70%; margin: 0 auto; text-align: center">-->
+<!--<md-input-container id="email">-->
+  <!--<input #emaill type="email" mdInput placeholder="Email" name="email" pattern="{{emailPat}}" required>-->
+<!--</md-input-container>-->
+  <!--<br/><br/>-->
+  <!--<button md-button (click)="send_info(emaill.value)">Send Link</button>-->
+<!--</div>-->
+
+<div style="width: 70%; margin: 0 auto; text-align: center">
+  <md-spinner style="margin: 0 auto;" *ngIf="loading"></md-spinner>
+  <br/>
+  <form id="form" (ngSubmit)="send_info(emaill.value)" #formm="ngForm">
+  <md-input-container id="email">
+    <input type="email" mdInput placeholder="Email" name="email" #emaill required>
+  </md-input-container>
+  <br/><br/>
+
+  <button disabled="{{loading}}" md-raised-button color="primary" type="submit">{{formm.form.valid ? "Send Link" : "Invalid Inputs"}}
+  </button>
+
+  <br/>
+</form>
+</div>

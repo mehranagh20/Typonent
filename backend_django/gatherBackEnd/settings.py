@@ -127,3 +127,11 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'type.User'
 AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend', 'type.backends.EmailAuthBackend']
 CSRF_HEADER_NAME = 'CSRF_COOKIE'
+
+
+# email configuration
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mehranagh200@gmail.com'
+EMAIL_HOST_PASSWORD = 'mehranagh20'

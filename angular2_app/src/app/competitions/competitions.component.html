@@ -20,8 +20,8 @@
        <td>
          <a href="{{cmp.registration_time_link}}" target="_blank">Registration Close Time</a>
        </td>
-       <td>{{cmp.duration}}</td>
-       <td>{{cmp.time_representation}}</td>
+       <td>{{cmp.duration}} sec</td>
+       <td #fuck>{{cmp.time_representation}} {{fuck.state}}</td>
        <td>
          <button *ngIf="cmp.registration_open && !cmp.is_registered" md-button (click)="register_competition(cmp.id)">Click To Register</button>
          <label *ngIf="!cmp.registration_open && !cmp.is_registered">{{cmp.registration_time_representation}}</label>

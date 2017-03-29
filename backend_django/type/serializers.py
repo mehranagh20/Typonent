@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import update_session_auth_hash
-from type.models import User, Competition
+from type.models import User, Competition, Involvement
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -34,3 +34,9 @@ class CompetitionSerializer(serializers.ModelSerializer):
         model = Competition
         fields = ('id', 'name', 'start_time', 'duration', 'max_competitors', 'registration_time'
                   , 'registration_close_time', 'competition_close_time')
+
+
+class InvolvementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Involvement
+        fields = ('rank', 'wpm', 'correct_char_number', 'wrong_char_number', 'total_keystrokes')

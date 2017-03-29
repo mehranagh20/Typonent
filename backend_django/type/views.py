@@ -1,21 +1,39 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, requires_csrf_token, ensure_csrf_cookie
 from type.models import User, Competition, Requirement, Involvement, Text
-from type.serializers import UserSerializer, CompetitionSerializer
+from type.serializers import UserSerializer, CompetitionSerializer, InvolvementSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.middleware import csrf
+from random import randint
 import json
 from django.utils import timezone
 import datetime
 from datetime import timedelta
 from bisect import bisect_left
+from django.core.mail import EmailMessage
+from django.utils.crypto import get_random_string
+
+
+LINK_TO_SITE = "localhost:4200/"
+
+
+def send_email(subject, body, email):
+    email = EmailMessage(subject, body, to=[email])
+    email.send()
+
+def user_activation(user):
+    user.hash = get_random_string(length=32)
+    send_email('Confirmation Link Typing Site', LINK_TO_SITE + 'emailactivation/' + str(user.id) + '/' + str(user.hash), user.email)
+
 
 def register(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         user = UserSerializer(data=data)
         if user.is_valid():
-            user.save()
+            u = user.save()
+            user_activation(u)
+            u.save()
             data = user.data
             data['status'] = 200
             return JsonResponse(data)
@@ -38,9 +56,10 @@ def userlogin(request):
             user = authenticate(email=email, password=password)
 
             if user is not None:
-                print(request.user.is_authenticated)
+                if not user.is_active:
+                    return JsonResponse({'status': 400, 'message': 'Go To You Email And Click On Confirmation Link.'})
+
                 login(request, user)
-                print(request.user.is_authenticated)
                 data = UserSerializer(user).data
                 data['status'] = 200
                 return JsonResponse(data)
@@ -193,7 +212,10 @@ def start_competition(request, id):
 
             competitor.started_competition = True
             competitor.save()
-            return JsonResponse({'status': 200, 'text': competition.text.txt})
+
+            texts = competition.text.all()
+            # return a random Text
+            return JsonResponse({'status': 200, 'text': texts[randint(0, len(texts) - 1)].txt})
 
         except:
             return JsonResponse({'status': 400, 'message': 'your are not registered in this competition!'})
@@ -243,3 +265,67 @@ def my_rank(request):
 
     except:
         return JsonResponse({'status': 400, 'message': 'no competition with information provided!'})
+
+
+def scoreboard(request, id):
+    # if not request.user.is_authenticated:
+    #     return JsonResponse({'status': 401, 'message': 'Unauthorized'})
+
+    try:
+        competition = Competition.objects.get(id=id)
+        all = [{**InvolvementSerializer(i).data, **{'name': i.user.username}}
+               for i in sorted(competition.competitors.filter(started_competition=True), key=lambda k: -k.wpm)]
+
+        # print(sorted(competition.competitors.filter(started_competition=True), key=lambda k: -k.wpm))
+        data = {'status': 200, 'scoreboard': all, 'name': ''}
+        if request.user.is_authenticated:
+            data['name'] = request.user.username
+
+        data['ended'] = 0
+        if competition.competition_close_time < timezone.now():
+            data['ended'] = 1
+
+        return JsonResponse(data)
+
+
+
+    except:
+        return JsonResponse({'status': 400, 'message': 'no competition with information provided!'})
+
+
+def activate_acount(request):
+    id = int(request.GET.get('id', '-1'))
+    hash = request.GET.get('hash', '')
+    if id == -1 or not hash:
+        return JsonResponse({'status': 400, 'message': 'id or hash not found'})
+
+    try:
+        user = User.objects.get(id=id)
+        if user.is_active:
+            return JsonResponse({'status': 200, 'message': 'your account is already active'})
+        if user.hash == hash:
+            user.is_active = True
+            user.save()
+            return JsonResponse({'status': 200})
+        else:
+            return JsonResponse({'status': 400, 'message': 'Wrong Link!'})
+
+    except:
+        return JsonResponse({'status': 400, 'message': 'Not Registered!'})
+
+
+def generate_hash(request):
+    data = json.loads(request.body.decode('utf-8'))
+    email = data['email']
+
+    try:
+        user = User.objects.get(email=email)
+        if user.is_active:
+            return JsonResponse({'status': 400, 'message': 'your account is already active!'})
+        user_activation(user)
+        user.save()
+
+        return JsonResponse({'status': 200, 'message': 'Confirmation link has been sent to your email address.'})
+
+    except:
+        return JsonResponse({'status': 400, 'message': 'No user with this email address is registered!'})

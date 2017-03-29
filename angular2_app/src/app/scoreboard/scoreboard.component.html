@@ -1,0 +1,16 @@
+<div *ngIf="loaded" class="scoreboard">
+  <table>
+    <tr>
+    <th *ngFor="let col of cols">{{col}}</th>
+    </tr>
+    <tr *ngFor="let inv of invs" [@changed]="inv.change" [ngClass]="{'me': (inv.name == my_name), 'notme': (inv.name != my_name)}">
+      <td>{{inv.rank}}</td>
+      <td>{{inv.name}}</td>
+      <td [@changeVal]="inv.wpm_change">{{inv.wpm}}</td>
+      <td [@changeVal]="inv.correct_change">{{inv.correct}}</td>
+      <td [@changeVal]="inv.wrong_change">{{inv.wrong}}</td>
+      <td [@changeVal]="inv.total_change">{{inv.total}}</td>
+    </tr>
+
+  </table>
+</div>

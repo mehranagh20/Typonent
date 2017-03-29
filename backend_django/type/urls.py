@@ -12,7 +12,10 @@ urlpatterns = [
     url(r'^registerComp/([0-9]+)$', views.register_competition),
     url(r'^getcompetition/([0-9]*)/$', views.get_competition),
     url(r'^startcompetition/([0-9]*)/$', views.start_competition),
-    url(r'^recieveinfo/$', views.my_rank)
+    url(r'^recieveinfo/$', views.my_rank),
+    url(r'^scoreboard/([0-9]*)/$', views.scoreboard),
+    url(r'^activeaccount/', views.activate_acount),
+    url(r'^generatehash/$', views.generate_hash),
 
 
 ]

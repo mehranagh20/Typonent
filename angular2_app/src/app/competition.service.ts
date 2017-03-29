@@ -37,5 +37,8 @@ export class CompetitionService {
       .map((res: Response) => res.json());
   }
 
+  scoreboard(id: number) {
+    return this.http.get(this.url + "scoreboard/" + id + "/").map((res: Response) => res.json());
+  }
 
 }

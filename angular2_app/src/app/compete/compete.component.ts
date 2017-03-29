@@ -1,5 +1,5 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router'
+import {ActivatedRoute, Params, Router} from '@angular/router'
 import {CompetitionService} from '../competition.service'
 import {Competition} from '../competition';
 import {CompetitionRemainingTime} from '../competition-remaining-time'
@@ -18,7 +18,7 @@ import {clearInterval} from "timers";
 })
 export class CompeteComponent implements OnInit {
 
-  constructor(private competitionService: CompetitionService, private dialog: MdDialog, private snackbar: MdSnackBar) { }
+  constructor(private competitionService: CompetitionService, private dialog: MdDialog, private snackbar: MdSnackBar, private router: Router) { }
 
   @ViewChild('box') el: ElementRef;
   started: boolean;
@@ -224,12 +224,19 @@ export class CompeteComponent implements OnInit {
       );
   }
 
+  go_to_scoreboard() {
+    clearInterval(this.interval_id);
+    this.router.navigate(['scoreboard', this.competition.id]);
+  }
+
   pass_competition() {
     this.time_passed++;
     if(this.competition.duration == this.time_passed) {
       clearInterval(this.interval_id);
       this.finished = true;
-      this.snackbar.open("Competition Has Ended", "WPM=" + this.my_wpm, {duration: 4000});
+      this.snackbar.open("Competition Has Ended", "Correct char number=" + this.correct_num, {duration: 4000});
+      this.cal_correct_wrong_words();
+      this.interval_id = setInterval(()=>this.go_to_scoreboard(), 4000);
     }
     this.cal_correct_wrong_words();
     this.my_wpm = (((this.typed.length / 5) - this.wrong_num) * 60) / this.time_passed;

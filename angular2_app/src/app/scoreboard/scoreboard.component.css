@@ -1,0 +1,33 @@
+table {
+  width:80%;
+  margin:0 auto;
+}
+
+table, th, td {
+  /*border: 1px solid black;*/
+  /*border-collapse: collapse;*/
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
+th, td {
+  padding: 17px;
+  text-align: left;
+}
+table tr:nth-child(even).notme {
+  color: white;
+  background-color: darkslategray;
+}
+table tr:nth-child(odd).notme {
+  background-color:lightgrey;
+}
+
+table th {
+  background-color: black;
+  color: white;
+}
+
+.me {
+  background-color: lightgreen;
+}
+

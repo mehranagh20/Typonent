@@ -18,7 +18,10 @@ import {CompetitionService} from './competition.service';
 import {AuthGuardService} from './auth-guard.service';
 import { CompeteComponent } from './compete/compete.component'
 import {CompetitionGuardService} from './competition-guard.service';
-import { WaitingToStartComponent } from './waiting-to-start/waiting-to-start.component'
+import { WaitingToStartComponent } from './waiting-to-start/waiting-to-start.component';
+import { ScoreboardComponent } from './scoreboard/scoreboard.component';
+import { EmailActivationComponent } from './email-activation/email-activation.component';
+import { ActivationLinkComponent } from './activation-link/activation-link.component'
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { WaitingToStartComponent } from './waiting-to-start/waiting-to-start.com
     CompetitionsComponent,
     CompeteComponent,
     WaitingToStartComponent,
+    ScoreboardComponent,
+    EmailActivationComponent,
+    ActivationLinkComponent,
 
   ],
   imports: [

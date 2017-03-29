@@ -3,20 +3,25 @@ table {
   margin:0 auto;
 }
 table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 th, td {
   padding: 17px;
   text-align: left;
 }
 table tr:nth-child(even) {
-  background-color: #eee;
+  background-color: lightblue;
 }
 table tr:nth-child(odd) {
-  background-color:#fff;
+  background-color:lightgrey;
 }
 table th {
-  background-color: black;
+  background-color: darkslategray;
   color: white;
+}
+
+a {
+  color: black;
 }
