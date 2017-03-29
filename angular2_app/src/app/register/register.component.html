@@ -40,8 +40,9 @@
     </md-input-container>
 
     <br/><br/>
-
+    <p *ngIf="!notRobot" style="color: red;">Do The Captcha</p>
     <re-captcha (captchaResponse)="handle_not_robot($event)" site_key="6LdN2RoUAAAAAMCdLrdgOFU6aP8CPiAWhAehiHgP"></re-captcha>
+    <br/>
 
   <button disabled="{{!notRobot}}" md-raised-button color="primary" type="submit">{{formm.form.valid ? "Register" : "Invalid Inputs"}}</button>
   <button md-raised-button routerLink="/login" color="primary">Login</button>
