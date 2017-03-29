@@ -47,3 +47,6 @@ please open issue for any Bug found.
 Mehran Aghabozorgi<br/>
 email: mehranagh200@gmail.com<br/>
 feel free to comment.
+
+# License
+MIT
