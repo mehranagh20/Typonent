@@ -40,7 +40,7 @@ In order to contribute on this project follow these steps:
 * commit and push the changes.
 * create a pull request
 ```
-please open issue for any issue found.
+please open issue for any Bug found.
 
 
 # Author
