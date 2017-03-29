@@ -1,2 +1,2 @@
 # Typing Site
-A Simple Typing Site Competition.
+**got any questions?** [email](mehranagh200@gmail.com) me.
