@@ -2,9 +2,9 @@
 **got any questions?** Email me at mehranagh200@gmail.com.
 
 # Introduction
-Typonent is a website for compete on typing speed and skills.
-This is quite different from other web sites available as typonent is competition base.
-Typonent is fully suitable for holding competitions with requirements.
+Typonent is a website for competing on typing speed and skills.
+This is quite different from other web sites available, as Typonent is competition base.
+Typonent is fully suitable for holding competitions with different requirements.
 This has been made for challege, so go ahead and try it .
 
 # Requirements
@@ -25,7 +25,7 @@ Installation is explained seperately in django readme and angular readme.
 # Usage
 ```
 read both angular and django readmes and do necessary things.
-## just run the server and front-end, add some users and competition then test the Typonent.
+just run the server and front-end, add some users and competition then test the Typonent.
 ```
 
 
@@ -40,10 +40,10 @@ In order to contribute on this project follow these steps:
 * commit and push the changes.
 * create a pull request
 ```
-please open issue if you have found any bugs.
+please open issue for any issue found.
 
 
 # Author
-Mehran Aghabozorgi
-email: mehranagh200@gmail.com
+Mehran Aghabozorgi<br/>
+email: mehranagh200@gmail.com<br/>
 feel free to comment.
