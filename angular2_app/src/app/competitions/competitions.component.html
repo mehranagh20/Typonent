@@ -9,6 +9,7 @@
        <th>Length</th>
        <th>Before Start</th>
        <th>Register</th>
+       <th>Scoreboard</th>
      </tr>
      <tr *ngFor="let cmp of upcoming_competitions">
        <td>{{cmp.name}}</td>
@@ -27,6 +28,9 @@
          <label *ngIf="!cmp.registration_open && !cmp.is_registered">{{cmp.registration_time_representation}}</label>
          <button md-button color="warn" *ngIf="cmp.is_registered" [routerLink]="['/compete', cmp.id]">Go to competition</button>
        </td>
+       <td>
+         <button md-button [routerLink]="['/scoreboard', cmp.id]">View Scoreboard</button>
+       </td>
      </tr>
    </table>
     <br/>
@@ -42,6 +46,7 @@
         <th>Competition Name</th>
         <th>Start</th>
         <th>Length</th>
+        <th>Scoreboard</th>
       </tr>
       <tr *ngFor="let cmp of past_competitions">
         <td>{{cmp.name}}</td>
@@ -49,6 +54,9 @@
           <a target="_blank" href="{{cmp.link_to_local_time()}}">{{cmp.start_time}}</a>
         </td>
         <td>{{cmp.duration}}</td>
+        <td>
+          <button md-button [routerLink]="['/scoreboard', cmp.id]">View Scoreboard</button>
+        </td>
       </tr>
     </table>
     <br/>

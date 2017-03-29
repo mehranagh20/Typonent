@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
   globErrors = [];
   isAlreadyLoggedIn: boolean;
   loading: boolean;
+  notRobot: boolean;
 
 
   constructor(private authenticationService: AuthenticationService, private http: Http, private route: Router) {}
@@ -65,7 +66,18 @@ export class RegisterComponent implements OnInit {
     this.globErrors = [];
   }
 
+  handle_not_robot(event: any) {
+    this.http.get('https://www.google.com/recaptcha/api/siteverify?secret=' + '6LdN2RoUAAAAAKiSd_rGaLkBAx1gRb2lpZMOragt' + '&' +
+      'response=' + event).map((res: Response) => res.json()).subscribe(
+      data => {
+        if(data['success'])
+          this.notRobot = true;
+      }
+    );
+  }
+
   ngOnInit() {
+    this.notRobot = false;
     // let user = localStorage.getItem('user');
     if(this.authenticationService.is_user_logged_in())
       this.route.navigate(['/']);

@@ -4,10 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, XSRFStrategy, CookieXSRFStrategy} from '@angular/http';
 import {CookieService} from 'angular2-cookie/core';
 import {MaterialModule, MdSnackBar} from '@angular/material';
-import {ActivatedRoute} from '@angular/router'
-
+import {ReCaptchaModule} from 'angular2-recaptcha'
 import {DataTableModule, MenuItem} from 'primeng/primeng';
-
 import {AppRouterModule} from './app.routes'
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -39,6 +37,7 @@ import { ActivationLinkComponent } from './activation-link/activation-link.compo
 
   ],
   imports: [
+    ReCaptchaModule,
     DataTableModule,
     BrowserModule,
     FormsModule,
