@@ -8,6 +8,8 @@ Typonent is fully suitable for holding competitions with different requirements.
 This has been made for challege, so go ahead and try it .
 
 # Requirements
+* django 1.10
+* python3
 * npm 4.3
 * node 6.9
 * angular 2

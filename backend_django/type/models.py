@@ -29,7 +29,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=40, unique=True)
 
     hash = models.TextField(default="")
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     is_admin = models.BooleanField(default=False)
 

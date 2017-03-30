@@ -49,13 +49,14 @@ export class CompeteComponent implements OnInit {
   start_line: number;
   gap_start_line: number;
 
-  check(event: any) {
+  check(event: any) { // stop tab pressing
     event.preventDefault();
     event.stopPropagation();
   }
 
   key_pressed() {
     this.total_keystrokes++;
+    console.log(this.total_keystrokes);
 
     if(this.typed.length <= this.real_text.length) {
       this.cal_correct_wrong_words();
@@ -225,7 +226,7 @@ export class CompeteComponent implements OnInit {
   }
 
   go_to_scoreboard() {
-    clearInterval(this.interval_id);
+    clearInterval(this.interval_id)
     this.router.navigate(['scoreboard', this.competition.id]);
   }
 

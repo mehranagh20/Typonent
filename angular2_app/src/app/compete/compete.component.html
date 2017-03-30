@@ -29,7 +29,6 @@
     <pre style="font-size: 20px">YOUR RANK: {{my_rank}}</pre>
     <pre style="font-size: 20px">REMAINING TO GET RANK ONE</pre>
     <md-progress-bar style="height: 30px;" id="first"
-                     color="accent"
                      mode="buffer"
                      [value]="(my_wpm / max_wpm) * 100"
                      [bufferValue]="(next_wpm / max_wpm) * 100">
@@ -37,7 +36,6 @@
     <br/>
     <pre style="font-size: 20px" *ngIf="my_rank > 1">REMAINING TO GET RANK {{my_rank - 1}}</pre>
     <md-progress-bar style="height: 30px;" *ngIf="my_rank > 1"
-      color="accent"
       mode="buffer"
       [value]="(my_wpm / next_wpm) * 100">
     </md-progress-bar>
