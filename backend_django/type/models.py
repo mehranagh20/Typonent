@@ -69,7 +69,7 @@ class User(AbstractBaseUser):
 
 class Text(models.Model):
     '''
-    Model for competition text.
+    Model for competition text, a competition may have many texts.
     '''
 
     name = models.CharField(max_length=40, default="")
@@ -86,7 +86,7 @@ class Text(models.Model):
 class Competition(models.Model):
     '''
     Model for competition.
-    A competition can have many requirements, a text, many Involvements(competitors).
+    A competition can have many requirements, some text, many Involvements(competitors).
     '''
 
     name = models.CharField(max_length=40)
@@ -111,7 +111,7 @@ class Requirement(models.Model):
     '''
 
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='requirements')
-    min_rank = models.IntegerField(default=0, blank=False)
+    min_rank = models.IntegerField(default=0, blank=False) # minimum rank to be allowed to compete.
     required_competition = models.ForeignKey(Competition, default=None, on_delete=models.CASCADE, related_name='requires')
 
     def __str__(self):

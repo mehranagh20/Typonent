@@ -133,5 +133,5 @@ CSRF_HEADER_NAME = 'CSRF_COOKIE'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mehranagh200@gmail.com'
-EMAIL_HOST_PASSWORD = 'mehranagh20'
+EMAIL_HOST_USER = 'typonent.cessa@gmail.com'
+EMAIL_HOST_PASSWORD = 'cessaiut'

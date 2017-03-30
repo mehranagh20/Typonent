@@ -30,6 +30,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CompetitionSerializer(serializers.ModelSerializer):
+    '''
+    used for serializing competition model
+    '''
     class Meta:
         model = Competition
         fields = ('id', 'name', 'start_time', 'duration', 'max_competitors', 'registration_time'
@@ -37,6 +40,9 @@ class CompetitionSerializer(serializers.ModelSerializer):
 
 
 class InvolvementSerializer(serializers.ModelSerializer):
+    '''
+    used for serializing involvement model
+    '''
     class Meta:
         model = Involvement
         fields = ('rank', 'wpm', 'correct_char_number', 'wrong_char_number', 'total_keystrokes')

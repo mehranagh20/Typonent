@@ -18,20 +18,33 @@ LINK_TO_SITE = "localhost:4200/"
 
 
 def send_email(subject, body, email):
+    '''
+    used to send email confirmation link
+    improve it with process, it takes some time to be finished when user is registering.
+    '''
     email = EmailMessage(subject, body, to=[email])
     email.send()
 
 def user_activation(user):
+    '''
+    used to generate a random string of length 32 as token of email confirmation.
+    change LINK_TO_SITE to your web site domain for real usage.
+    '''
     user.hash = get_random_string(length=32)
     send_email('Confirmation Link Typing Site', LINK_TO_SITE + 'emailactivation/' + str(user.id) + '/' + str(user.hash), user.email)
 
 
 def register(request):
+    '''
+    used for registering new user, this is where email confirmation link is generated and send to user.
+    '''
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         user = UserSerializer(data=data)
         if user.is_valid():
             u = user.save()
+            u.is_active = False
+            u.save()
             user_activation(u)
             u.save()
             data = user.data
@@ -47,6 +60,9 @@ def register(request):
 
 @ensure_csrf_cookie
 def userlogin(request):
+    '''
+    used for logging users in
+    '''
     print(request.META)
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
@@ -83,16 +99,26 @@ def userlogout(request):
 
 @ensure_csrf_cookie
 def ping(request, val):
+    '''
+    Simple Ping View
+    '''
     request.session.set_test_cookie()
     return HttpResponse(val)
 
 
 def cur_date(request):
+    '''
+    used to return current UTC time to web site for precise calculation of time base on server time.
+    '''
     time = timezone.now()
     return JsonResponse({'date': str(time)})
 
 
 def upcoming_competition_list(request, nums):
+    '''
+    used to send list of not yet started competitions.
+    nums parameter specify that from which index of competitions list should we send competition info, up to 10 competition will be sent
+    '''
     nums = int(nums)
     comps = Competition.objects.filter(competition_close_time__gt=timezone.now())
     comps = sorted(comps, key=lambda k: k.start_time)
@@ -113,6 +139,9 @@ def upcoming_competition_list(request, nums):
 
 
 def past_competition_list(request, nums):
+    '''
+    just like upcoming competitions but for is for past ones.
+    '''
     nums = int(nums)
     comps = Competition.objects.filter(competition_close_time__lte=timezone.now())
     comps = sorted(comps, key=lambda k: k.start_time)
@@ -123,6 +152,10 @@ def past_competition_list(request, nums):
 
 
 def register_competition(request, id):
+    '''
+    used to register the requested user to competition with id of id.
+    user will be registered in competitions with valid date if the user passes all the requirements of competition.
+    '''
     if not request.user.is_authenticated:
         return JsonResponse({'status': 401, 'message': 'log in to register!'}) # unauthorized
 
@@ -165,6 +198,9 @@ def register_competition(request, id):
 
 
 def get_competition(request, id):
+    '''
+    used to send specific information about a competition with id of id.
+    '''
     if not request.user.is_authenticated:
         return JsonResponse({'status': 401, 'message': 'Unauthorized'})
 
@@ -192,6 +228,12 @@ def get_competition(request, id):
 
 
 def start_competition(request, id):
+    '''
+    used to specify that requested user has started to participate in a competition with id of id so that the user will
+    not be able to participate again in this competition
+    this will send required info for starting competition like text, a random text will be chosen
+    from list of text of competition by default
+    '''
     if not request.user.is_authenticated:
         return JsonResponse({'status': 401, 'message': 'Unauthorized'})
 
@@ -225,6 +267,14 @@ def start_competition(request, id):
 
 
 def my_rank(request):
+    '''
+    used for updating involvement of a usr in a competition.
+    rank of user and some other info will be sent as json for real time ranking in compete component of angular.
+    by default involvements are sorted with key of wpm.
+    wpm formula by default is ((all_entered_chars / 5) - number_of_wrong_chars) / time_in_minute
+    by default ranking of users will not be changed but when a user has finished participating in an competition
+    so user will send a finished flag so if competition is finished we save updated ranking.
+    '''
     if not request.user.is_authenticated:
         return JsonResponse({'status': 401, 'message': 'Unauthorized'})
     try:
@@ -237,7 +287,7 @@ def my_rank(request):
             competitor.wrong_char_number = data['wrong']
             competitor.time_passed = data['time']
             competitor.total_keystrokes = data['total']
-            wpm = (((data['correct'] / 5 - data['wrong']) * 60) / data['time'])
+            wpm = ((((data['correct'] + data['wrong']) / 5 - data['wrong']) * 60) / data['time'])
             finished = data['finished']
             competitor.wpm = wpm
             competitor.save()
@@ -268,8 +318,12 @@ def my_rank(request):
 
 
 def scoreboard(request, id):
-    # if not request.user.is_authenticated:
-    #     return JsonResponse({'status': 401, 'message': 'Unauthorized'})
+    '''
+    used to send scoreboard information.
+    by default involvements are sorted by key of wpm
+    '''
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 401, 'message': 'Unauthorized'})
 
     try:
         competition = Competition.objects.get(id=id)
@@ -294,6 +348,10 @@ def scoreboard(request, id):
 
 
 def activate_acount(request):
+    '''
+    used when user clicks on confirmation link sent to the user's email.
+    it identifies the user and checks if token in url is the same with the one created for user.
+    '''
     id = int(request.GET.get('id', '-1'))
     hash = request.GET.get('hash', '')
     if id == -1 or not hash:
@@ -315,6 +373,10 @@ def activate_acount(request):
 
 
 def generate_hash(request):
+    '''
+    if user request for new confirmation link this will be called
+    it generates one and email it to user.
+    '''
     data = json.loads(request.body.decode('utf-8'))
     email = data['email']
 

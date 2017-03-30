@@ -2,3 +2,5 @@
 # replace email address for sending email confirmation
 # replace LINK for generating link for email confirmation
 # change recaptcha code for domain
+# add apropriate message for body of email sent for email confirmation link
+# if server is not able to send email it will fail and internal error will occure
