@@ -16,16 +16,16 @@ $ sudo pip3 install django
 ```
 * installing rest framework:
 ```bash
-$ pip3 install pip install djangorestframework
+$ pip install djangorestframework
 ```
 
-### follow these steps before running the server.
+### follow these steps in order to run server.
 1. clone the repo.
 2. open setting.py file in gatherBackEnd diectory and change DATABASES section base on you database settings.
-3. create database named "gather" (or whatever you have changed it to).
+3. create a database named "gather" (or whatever you have changed it to).
 4. make migrations to database by:
 ```bash
-$ python3 manage.py makemigration
+$ python3 manage.py makemigrations
 ```
 5. migrate changes to database by:
 ```bash
@@ -52,5 +52,5 @@ localhost:8000/admin
 
 ## Documentation
 
-brief explainations about models and views are added as comments in code files view.py and models.py
+brief explainations about models and views are added as comment in code files view.py and models.py
 
