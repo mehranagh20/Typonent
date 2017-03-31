@@ -74,6 +74,8 @@ WSGI_APPLICATION = 'gatherBackEnd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
+
+# change this part base on your info
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

@@ -1,23 +1,56 @@
-# Django Backend
+# Backend, Django
 
 ## Requirements
-```
+
 * django 1.10
-* python3
+* django rest framework
+* python 3
+
+
+## Installation
+
+### Requirements Installation:
+* installing django:
+```bash
+$ sudo pip3 install django
 ```
+* installing rest framework:
+```bash
+$ pip3 install pip install djangorestframework
+```
+
+### follow these steps before running the server.
+1. clone the repo.
+2. open setting.py file in gatherBackEnd diectory and change DATABASES section base on you database settings.
+3. create database named "gather" (or whatever you have changed it to).
+4. make migrations to database by:
+```bash
+$ python3 manage.py makemigration
+```
+5. migrate changes to database by:
+```bash
+$ python3 manage.py migrate.
+```
+* if no problem occures, then your database is set up for usage.
 
 ## Usage
-```
-change database settings in settings.py base on your database.
-create required tables with :
-$ python3 manage.py makemigration && python3 manage.py migrate
-create some testing objects
-have fun with testing :)
+
+* create a superuser so you can create and change objects:
+```bash
+$ python3 manage.py createsuperuser
 ```
 
-### run server with:
+* run the server:
 ```bash
-$ cd backend_django
 $ python3 manage.py runserver
 ```
+* open server url in browser and go to admin page, for example:
+```bash
+localhost:8000/admin
+```
+* add some objects like competitions base on what you want and documentation.
+
+## Documentation
+
+brief explainations about models and views are added as comments in code files view.py and models.py
 
