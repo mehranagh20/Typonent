@@ -1,7 +1,7 @@
 # Angular2 App, Front End
 
 ## Requirements
-* angular cli 1.0.0-beta (more info)[https://github.com/angular/angular-cli]
+* angular cli 1.0.0-beta [more info](https://github.com/angular/angular-cli)
 * nodejs v6.9
 * npm 4.3
 
