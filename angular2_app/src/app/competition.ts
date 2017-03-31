@@ -102,7 +102,7 @@ export class Competition {
   link_to_local_time(date: string) {
     let d = new Date(date);
     let link = "https://www.timeanddate.com/worldclock/fixedtime.html?day=" + d.getUTCDate() +
-      "&month=" + d.getUTCMonth() + "&year=" + d.getUTCFullYear() + "&hour=" + d.getUTCHours() +
+      "&month=" + (+d.getUTCMonth() + 1) + "&year=" + d.getUTCFullYear() + "&hour=" + d.getUTCHours() +
       "&min=" + d.getUTCMinutes() + "&sec=" + d.getUTCSeconds();
     return link;
   }
