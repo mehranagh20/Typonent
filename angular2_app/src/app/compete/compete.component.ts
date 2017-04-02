@@ -1,15 +1,12 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router'
+import {Router} from '@angular/router'
 import {CompetitionService} from '../competition.service'
 import {Competition} from '../competition';
-import {CompetitionRemainingTime} from '../competition-remaining-time'
-import 'rxjs/add/operator/map'
-import {min} from "rxjs/operator/min";
-import {timeInterval} from "rxjs/operator/timeInterval";
 import {MdDialog, MdSnackBar} from '@angular/material'
 import {WaitingToStartComponent} from '../waiting-to-start/waiting-to-start.component'
 import {setInterval} from "timers";
 import {clearInterval} from "timers";
+import 'rxjs/add/operator/map'
 
 @Component({
   selector: 'app-compete',
@@ -226,7 +223,7 @@ export class CompeteComponent implements OnInit {
   }
 
   go_to_scoreboard() {
-    clearInterval(this.interval_id)
+    clearInterval(this.interval_id);
     this.router.navigate(['scoreboard', this.competition.id]);
   }
 
@@ -283,9 +280,7 @@ export class CompeteComponent implements OnInit {
     this.gap_start_line = 2; // shows after what line number text div will scroll down
 
     this.typed = "";
-
-
-
+    
     this.start_line = 0;
     this.total_keystrokes = 0;
 

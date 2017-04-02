@@ -1,3 +1,3 @@
 #!/bin/bash
 
-curl "localhost:8000/getdate"
+curl "localhost:8000/getdate/"
