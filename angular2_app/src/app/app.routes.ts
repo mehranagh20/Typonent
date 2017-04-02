@@ -11,6 +11,7 @@ import {CompetitionGuardService} from './competition-guard.service';
 import {ScoreboardComponent} from './scoreboard/scoreboard.component';
 import {EmailActivationComponent} from './email-activation/email-activation.component';
 import {ActivationLinkComponent} from './activation-link/activation-link.component';
+import {AboutUsComponent} from './about-us/about-us.component'
 
 const routes: Routes = [
   {path: 'register', component: RegisterComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'compete/:id', canActivate:[AuthGuardService, CompetitionGuardService], component: CompeteComponent},
   {path: 'scoreboard/:id', canActivate:[AuthGuardService], component: ScoreboardComponent},
   {path: 'emailactivation/:id/:hash', component: EmailActivationComponent},
-  {path: 'activate', component: ActivationLinkComponent}
+  {path: 'activate', component: ActivationLinkComponent},
+  {path: 'about', component: AboutUsComponent}
 
 ];
 

@@ -19,7 +19,8 @@ import {CompetitionGuardService} from './competition-guard.service';
 import { WaitingToStartComponent } from './waiting-to-start/waiting-to-start.component';
 import { ScoreboardComponent } from './scoreboard/scoreboard.component';
 import { EmailActivationComponent } from './email-activation/email-activation.component';
-import { ActivationLinkComponent } from './activation-link/activation-link.component'
+import { ActivationLinkComponent } from './activation-link/activation-link.component';
+import { AboutUsComponent } from './about-us/about-us.component'
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ActivationLinkComponent } from './activation-link/activation-link.compo
     ScoreboardComponent,
     EmailActivationComponent,
     ActivationLinkComponent,
+    AboutUsComponent,
 
   ],
   imports: [

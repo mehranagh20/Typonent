@@ -21,7 +21,7 @@ span {
   overflow: hidden;
   width: 70%;
   margin: 0 auto;
-  border: 5px solid mediumpurple;
+  border: 5px solid lightslategrey;
   border-radius: 10px;
 
   /*prevent user from selecting text*/
@@ -51,5 +51,5 @@ textarea:focus {
   text-align: center;
   width: 70%;
   margin:0 auto;
-  color: purple;
+  color: darkcyan;
 }

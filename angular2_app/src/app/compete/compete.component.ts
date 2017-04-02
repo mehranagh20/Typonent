@@ -56,13 +56,15 @@ export class CompeteComponent implements OnInit {
 
   key_pressed() {
     this.total_keystrokes++;
-    console.log(this.total_keystrokes);
 
     if(this.typed.length <= this.real_text.length) {
       this.cal_correct_wrong_words();
-      this.my_wpm = (((this.typed.length / 5) - this.wrong_num) * 60) / this.time_passed;
+      if(this.time_passed)
+        this.my_wpm = this.cal_wpm();
+      console.log(this.my_wpm);
       this.index = this.typed.length;
       this.start_line = this.which_line_to_start[this.index];
+      if(this.typed.length == this.real_text.length) this.finished_sooner();
     }
 
   }
@@ -97,7 +99,6 @@ export class CompeteComponent implements OnInit {
     this.competitionService.start_competition(this.competition.id).subscribe(
       data => {
         if(data['status'] == 200) {
-          console.log(data['text']);
           this.real_text = data['text'];
           let tmp = this.real_text.split('\n');
           this.text = [];
@@ -124,7 +125,6 @@ export class CompeteComponent implements OnInit {
           }
           for(let i = 0; i < this.real_text.length; i++) this.correct_words[i] = 0;
           this.cal_line_to_show();
-          console.log(this.real_text);
           this.started = true;
           this.open_dialog();
         }
@@ -176,9 +176,7 @@ export class CompeteComponent implements OnInit {
   }
 
   start_sooner() {
-    console.log(this.competition.has_expired);
     this.competition.has_expired = true;
-    console.log(this.competition.has_expired);
   }
 
   before_start() {
@@ -212,6 +210,8 @@ export class CompeteComponent implements OnInit {
   }
 
   send_info(finished: boolean) {
+    if(finished)
+      console.log("ENDED " + this.time_passed + " " + this.correct_num);
     this.competitionService.send_info(this.time_passed, this.correct_num, this.wrong_num, this.total_keystrokes, this.competition.id, finished)
       .subscribe(
         data => {
@@ -230,6 +230,10 @@ export class CompeteComponent implements OnInit {
     this.router.navigate(['scoreboard', this.competition.id]);
   }
 
+  cal_wpm() {
+    return (((this.typed.length / 5) - this.wrong_num) * 60) / this.time_passed;
+  }
+
   pass_competition() {
     this.time_passed++;
     if(this.competition.duration == this.time_passed) {
@@ -240,8 +244,19 @@ export class CompeteComponent implements OnInit {
       this.interval_id = setInterval(()=>this.go_to_scoreboard(), 4000);
     }
     this.cal_correct_wrong_words();
-    this.my_wpm = (((this.typed.length / 5) - this.wrong_num) * 60) / this.time_passed;
+    this.my_wpm = this.cal_wpm();
     this.send_info(this.finished);
+  }
+
+  finished_sooner() {
+    clearInterval(this.interval_id);
+    this.finished = true;
+    this.snackbar.open("Competition finished in " + this.time_passed + " sec", "Correct char number=" + this.correct_num, {duration:4000});
+    this.cal_correct_wrong_words();
+    this.my_wpm = this.cal_wpm();
+    this.send_info(true);
+    this.interval_id = setInterval(()=>this.go_to_scoreboard(), 4000);
+
   }
 
   open_dialog() {
@@ -258,6 +273,7 @@ export class CompeteComponent implements OnInit {
 
   ngOnInit() {
     this.snack_bar_showed = false;
+    this.my_wpm = 0;
     this.can_start = false;
     this.started = false;
     this.finished = false;

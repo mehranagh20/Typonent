@@ -17,13 +17,14 @@
   {{competition.time_representation}}
   </div>
   <br/>
-  <h2 style="color: forestgreen;">You will automatically redirected to competition page after time finished or click Start to start sooner.</h2>
+  <h2 style="color: mediumseagreen;">You will automatically redirected to competition page after time finished or click Start to start sooner.</h2>
   <br/>
-  <button style="width: 50px;" color="accent" md-raised-button (click)="start_sooner()">Start</button>
+  <button style="width: 50px; background-color: darkcyan; color: white;" md-raised-button (click)="start_sooner()">Start</button>
 </div>
 
 
 <div *ngIf="started && can_start">
+  <!--<md-progress-bar mode="Determinate" [value]="100 - ((time_passed / competition.duration) * 100)"></md-progress-bar>-->
 
   <div style="width: 70%; margin: 0 auto; text-align: center">
     <pre style="font-size: 20px">YOUR RANK: {{my_rank}}</pre>

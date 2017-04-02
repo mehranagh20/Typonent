@@ -1,11 +1,11 @@
-# Typonent
+\ Typonent
 **got any questions?** Email me at mehranagh200@gmail.com.
 
 # Introduction
 Typonent is a website for competing on typing speed and skills.
 This is quite different from other web sites available, as Typonent is competition base.
 Typonent is fully suitable for holding competitions with different requirements.
-This has been made for challege, so go ahead and try it .
+This has been made for challege, go ahead and try it .
 
 # Requirements
 * django 1.10
