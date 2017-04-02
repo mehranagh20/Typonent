@@ -1,4 +1,4 @@
-\ Typonent
+# Typonent
 **got any questions?** Email me at mehranagh200@gmail.com.
 
 # Introduction
