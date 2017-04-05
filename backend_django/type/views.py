@@ -270,7 +270,7 @@ def my_rank(request):
     '''
     used for updating involvement of a usr in a competition.
     rank of user and some other info will be sent as json for real time ranking in compete component of angular.
-    by default involvements are sorted with key of wpm.
+    by default involvements are sorted with key of (-wpm, -number of correct characters, number of wrong chars, -total keystrokes.
     wpm formula by default is ((all_entered_chars / 5) - number_of_wrong_chars) / time_in_minute
     by default ranking of users will not be changed but when a user has finished participating in an competition
     so user will send a finished flag so if competition is finished we save updated ranking.
@@ -292,7 +292,8 @@ def my_rank(request):
             competitor.wpm = wpm
             competitor.save()
 
-            all = sorted(competition.competitors.all(), key=lambda k: -k.wpm)
+            all = sorted(competition.competitors.all(), key=lambda k: (-k.wpm, -k.correct_char_number,
+                                                     k.wrong_char_number, -k.total_keystrokes))
 
             if finished:
                 print('saving')

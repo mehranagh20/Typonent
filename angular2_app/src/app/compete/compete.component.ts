@@ -280,7 +280,7 @@ export class CompeteComponent implements OnInit {
     this.gap_start_line = 2; // shows after what line number text div will scroll down
 
     this.typed = "";
-    
+
     this.start_line = 0;
     this.total_keystrokes = 0;
 
