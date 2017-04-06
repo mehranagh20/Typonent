@@ -128,7 +128,10 @@ export class CompeteComponent implements OnInit {
         else
           this.snackbar.open(data['message'], "Failed", {duration:4000});
       },
-      error => {console.log('error communicating with server!')}
+      error => {
+        console.log(error);
+        this.snackbar.open("Problem Communicating With Server", "Failed", {duration:5000});
+      }
     );
 
 
@@ -186,7 +189,10 @@ export class CompeteComponent implements OnInit {
         date => {
           this.competition.remaining_time = this.competition.date_to_remaining_time(date['date'], this.competition.competition_close_time);
           this.competition.update_time();
-        }, error => {console.log('error getting date from server')}
+        }, error => {
+          console.log(error);
+          this.snackbar.open("Problem Communicating With Server", "Failed", {duration:5000});
+        }
       );
     }
     this.competition.update_time();
@@ -201,7 +207,8 @@ export class CompeteComponent implements OnInit {
         this.competition.message_for_finish = "Starting...";
       },
       error => {
-        console.log('error communicating with server!')
+        console.log(error);
+        this.snackbar.open("Problem Communicating With Server", "Failed", {duration:5000});
       }
     );
   }
