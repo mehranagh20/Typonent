@@ -5,6 +5,7 @@ import {userInfo} from "os";
 import {Http, Response} from "@angular/http";
 import {Routes, Router} from '@angular/router'
 import {forEach} from "@angular/router/src/utils/collection";
+import {MdSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   loading: boolean;
   globErrors = [];
 
-  constructor(private authenticationService: AuthenticationService, private http: Http, private route: Router) {}
+  constructor(private authenticationService: AuthenticationService, private http: Http, private route: Router, private snackbar: MdSnackBar) {}
 
   dologin() {
     this.loading = true;
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit {
       errors => {
         this.globErrors = ['Problem Communicating With Server!!'];
         this.loading = false;
+        this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
       }
     );
   }
