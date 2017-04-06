@@ -27,15 +27,15 @@ Installation is explained seperately in django readme and angular readme.
 # Usage
 ```
 read both angular and django readmes and do necessary things.
-just run the server and front-end, add some users and competition then test the Typonent.
+Run servers, add some objects and test Typonent.
 ```
 
 
 # Development
 Contribution is open for anything, whether fixing a bug, improving an existing feature
 or add a new feature or anything else :)
-```
 In order to contribute on this project follow these steps:
+```
 * fork the repository.
 * create a new branch (git checkout -b branch-name)
 * add your feature and changes
