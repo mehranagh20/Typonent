@@ -23,15 +23,24 @@ def send_email(subject, body, email):
     improve it with process, it takes some time to be finished when user is registering.
     '''
     email = EmailMessage(subject, body, to=[email])
-    email.send()
+    try:
+        email.send()
+        return True
+    except:
+        return False
+
 
 def user_activation(user):
     '''
     used to generate a random string of length 32 as token of email confirmation.
     change LINK_TO_SITE to your web site domain for real usage.
     '''
-    user.hash = get_random_string(length=32)
-    send_email('Confirmation Link Typing Site', LINK_TO_SITE + 'emailactivation/' + str(user.id) + '/' + str(user.hash), user.email)
+    hash = get_random_string(length=32)
+    if send_email('Confirmation Link Typing Site', LINK_TO_SITE + 'emailactivation/' + str(user.id) + '/' + str(user.hash), user.email):
+        user.hash = hash
+        return "confirmation link is sent"
+    else:
+        return "problem sending confirmation link"
 
 
 def register(request):
@@ -385,10 +394,10 @@ def generate_hash(request):
         user = User.objects.get(email=email)
         if user.is_active:
             return JsonResponse({'status': 400, 'message': 'your account is already active!'})
-        user_activation(user)
+        message = user_activation(user)
         user.save()
 
-        return JsonResponse({'status': 200, 'message': 'Confirmation link has been sent to your email address.'})
+        return JsonResponse({'status': 200, 'message': message})
 
     except:
         return JsonResponse({'status': 400, 'message': 'No user with this email address is registered!'})
