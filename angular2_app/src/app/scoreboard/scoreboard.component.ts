@@ -30,7 +30,7 @@ export class ScoreboardComponent implements OnInit {
   id: number;
   my_name: string; // change color of row if is me
   invs = [];
-  cols = ['Rank', 'Name', 'WPM (Word Per Minute)', 'Correct Characters', 'Wrong Characters', 'Total Keystrokes'];
+  cols = ['Rank', 'Name', 'WPM (Word Per Minute)', 'Correct Characters', 'Wrong Characters', 'Total Keystrokes', 'Has Finished?'];
   loaded: boolean;
   animation_interval_id: any;
 
@@ -44,6 +44,7 @@ export class ScoreboardComponent implements OnInit {
     inv.wrong = js['wrong_char_number'];
     inv.wpm = js['wpm'];
     inv.change = false;
+    inv.finished = js['finished_competition'];
     return inv;
   }
 
@@ -80,6 +81,7 @@ export class ScoreboardComponent implements OnInit {
       c.correct_change = false;
       c.wrong_change = false;
       c.total_change = false;
+      c.finished_change = false;
     }
   }
 
@@ -103,18 +105,21 @@ export class ScoreboardComponent implements OnInit {
               this.invs[i].correct = inv.correct;
               this.invs[i].wrong = inv.wrong;
               this.invs[i].wpm = inv.wpm;
+              this.invs[i].finished = inv.finished;
             }
             else {
               if(this.invs[i].wpm != inv.wpm) this.invs[i].wpm_change = true;
               if(this.invs[i].correct != inv.correct) this.invs[i].correct_change = true;
               if(this.invs[i].wrong != inv.wrong) this.invs[i].wrong_change = true;
               if(this.invs[i].total != inv.total) this.invs[i].total_change = true;
+              if(this.invs[i].finished != inv.finished) this.invs[i].finished_change = true;
               this.invs[i].name = inv.name;
               this.invs[i].rank = inv.rank;
               this.invs[i].total = inv.total;
               this.invs[i].correct = inv.correct;
               this.invs[i].wrong = inv.wrong;
               this.invs[i].wpm = inv.wpm;
+              this.invs[i].finished = inv.finished;
             }
           }
           this.animation_interval_id = setInterval(()=>this.make_false(), 400);

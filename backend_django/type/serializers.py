@@ -45,4 +45,4 @@ class InvolvementSerializer(serializers.ModelSerializer):
     '''
     class Meta:
         model = Involvement
-        fields = ('rank', 'wpm', 'correct_char_number', 'wrong_char_number', 'total_keystrokes')
+        fields = ('rank', 'wpm', 'correct_char_number', 'wrong_char_number', 'total_keystrokes', 'finished_competition')

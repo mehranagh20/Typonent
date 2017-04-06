@@ -10,4 +10,6 @@ export class Involvement {
   public correct_change = false;
   public wrong_change = false;
   public total_change = false;
+  public finished = false;
+  public finished_change = false;
 }
