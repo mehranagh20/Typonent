@@ -340,7 +340,7 @@ def scoreboard(request, id):
     try:
         competition = Competition.objects.get(id=id)
         all = [{**InvolvementSerializer(i).data, **{'name': i.user.username}}
-               for i in sorted(competition.competitors.filter(started_competition=True), key=lambda k: -k.wpm)]
+               for i in sorted(competition.competitors.filter(started_competition=True, time_passed=competition.duration), key=lambda k: -k.wpm)]
 
         # print(sorted(competition.competitors.filter(started_competition=True), key=lambda k: -k.wpm))
         data = {'status': 200, 'scoreboard': all, 'name': ''}
