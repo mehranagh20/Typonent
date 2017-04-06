@@ -41,6 +41,7 @@ export class CompetitionGuardService implements CanActivate {
       },
       error => {
         console.log(error);
+        this.snackBar.open("problem communicating with server", 'failed', {duration: 4000});
         return false;
       }
     );
