@@ -286,8 +286,7 @@ def my_rank(request):
     rank of user and some other info will be sent as json for real time ranking in compete component of angular.
     by default involvements are sorted with key of (-wpm, -number of correct characters, number of wrong chars, -total keystrokes.
     wpm formula by default is ((all_entered_chars / 5) - number_of_wrong_chars) / time_in_minute
-    by default ranking of users will not be changed but when a user has finished participating in an competition
-    so user will send a finished flag so if competition is finished we save updated ranking.
+    every time user's rank change we refresh all rankings and save them in database
     '''
     if not request.user.is_authenticated:
         return JsonResponse({'status': 401, 'message': 'Unauthorized'})
@@ -316,13 +315,20 @@ def my_rank(request):
             #         all[i].save()
 
             ind = 0
+            changed = False
             print(all)
             for i in range(len(all)):
-                cm = all[i]
-                cm.rank = i + 1
-                cm.save()
                 if all[i] == competitor:
                     ind = i
+                    if all[i].rank != i + 1:
+                        changed = True
+                    break
+
+            if changed:
+                for i in range(len(all)):
+                    cm = all[i]
+                    cm.rank = i + 1
+                    cm.save()
 
             next = 0 if ind == 0 else ind - 1
             return JsonResponse({'status': 200, 'rank': ind + 1, 'next_name': all[next].user.username,
