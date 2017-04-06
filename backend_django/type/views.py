@@ -363,7 +363,10 @@ def activate_acount(request):
     used when user clicks on confirmation link sent to the user's email.
     it identifies the user and checks if token in url is the same with the one created for user.
     '''
-    id = int(request.GET.get('id', '-1'))
+    try: # in case that id is not integer
+        id = int(request.GET.get('id', '-1'))
+    except:
+        return JsonResponse({'status': 400, 'message': 'Wrong Link!'})
     hash = request.GET.get('hash', '')
     if id == -1 or not hash:
         return JsonResponse({'status': 400, 'message': 'id or hash not found'})
