@@ -37,8 +37,9 @@ def user_activation(user):
     change LINK_TO_SITE to your web site domain for real usage.
     '''
     hash = get_random_string(length=32)
-    if send_email('Confirmation Link Typing Site', LINK_TO_SITE + 'emailactivation/' + str(user.id) + '/' + str(user.hash), user.email):
+    if send_email('Confirmation Link Typing Site', LINK_TO_SITE + 'emailactivation/' + str(user.id) + '/' + str(hash), user.email):
         user.hash = hash
+        print(hash)
         return "confirmation link is sent"
     else:
         return "problem sending confirmation link"
@@ -378,7 +379,7 @@ def activate_acount(request):
         if user.hash == hash:
             user.is_active = True
             user.save()
-            return JsonResponse({'status': 200})
+            return JsonResponse({'status': 200, 'message': 'your account is activated'})
         else:
             return JsonResponse({'status': 400, 'message': 'Wrong Link!'})
 
@@ -400,6 +401,7 @@ def generate_hash(request):
             return JsonResponse({'status': 400, 'message': 'your account is already active!'})
         message = user_activation(user)
         user.save()
+        print(user.hash)
 
         return JsonResponse({'status': 200, 'message': message})
 

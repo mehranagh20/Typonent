@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
       data => {
         if(data['status'] == 200) {
           //localStorage.setItem('user', JSON.stringify({'email': data['email'], 'username': data['username']}));
+          this.snackbar.open("Error", "confirmation link will be sent to you email address", {duration: 6000});
           this.route.navigate(['/login']);
         }
         else {

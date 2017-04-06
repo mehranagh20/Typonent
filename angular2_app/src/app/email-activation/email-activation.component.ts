@@ -19,7 +19,7 @@ export class EmailActivationComponent implements OnInit {
     this.authService.activate(id, hash).subscribe(
       data => {
         if(data['status'] == 200) {
-          this.snackbar.open("Success", "your account is activated", {duration: 5000});
+          this.snackbar.open("Success", data['message'], {duration: 5000});
           this.router.navigate(['login']);
         }
         else {
