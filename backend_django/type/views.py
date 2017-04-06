@@ -316,7 +316,6 @@ def my_rank(request):
 
             ind = 0
             changed = False
-            print(all)
             for i in range(len(all)):
                 if all[i] == competitor:
                     ind = i
