@@ -48,6 +48,7 @@ export class RegisterComponent implements OnInit {
         this.loading = false;
       },
       errors => {
+        console.log(errors);
         this.loading = false;
         this.clearErrors();
         this.snackbar.open("Error", "Problem getting info from server", {duration: 5000});
@@ -77,6 +78,7 @@ export class RegisterComponent implements OnInit {
           this.snackbar.open("Error", "you didn't pass authentication", {duration: 5000});
       },
       error => {
+        console.log(error);
         this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
       }
     );

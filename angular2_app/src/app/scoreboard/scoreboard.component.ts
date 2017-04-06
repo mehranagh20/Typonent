@@ -65,6 +65,7 @@ export class ScoreboardComponent implements OnInit {
           console.log(data['message']);
       },
       error => {
+        console.log(error);
         this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
       }
     );

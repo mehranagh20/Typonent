@@ -37,7 +37,7 @@ export class EmailActivationComponent implements OnInit {
         this.send_request(data['id'], data['hash']);
       },
       error => {
-        console.log('error');
+        console.log(error);
         this.snackbar.open("Error", "Problem with url provided, wrong link", {duration: 5000});
       }
     );

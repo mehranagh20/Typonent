@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
       errors => {
         this.globErrors = [];
         this.loading = false;
+        console.log(errors);
         this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
       }
     );
