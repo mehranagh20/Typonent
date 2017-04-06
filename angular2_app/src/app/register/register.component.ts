@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit {
           this.snackbar.open("Error", "you didn't pass authentication", {duration: 5000});
       },
       error => {
-        this.snackbar.open("Error", "Problem with authenticating", {duration: 5000});
+        this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
       }
     );
   }
