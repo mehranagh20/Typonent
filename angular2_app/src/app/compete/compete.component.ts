@@ -126,7 +126,7 @@ export class CompeteComponent implements OnInit {
           this.open_dialog();
         }
         else
-          this.snackbar.open(data['message'], "Failed", {duration:4000});
+          this.snackbar.open(data['message'], "Failed", {duration:5000});
       },
       error => {
         console.log(error);

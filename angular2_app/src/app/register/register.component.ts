@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
       data => {
         if(data['status'] == 200) {
           //localStorage.setItem('user', JSON.stringify({'email': data['email'], 'username': data['username']}));
-          this.snackbar.open("Error", "confirmation link will be sent to you email address", {duration: 6000});
+          this.snackbar.open("confirmation link will be sent to you email address", "success", {duration: 6000});
           this.route.navigate(['/login']);
         }
         else {
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
         console.log(errors);
         this.loading = false;
         this.clearErrors();
-        this.snackbar.open("Error", "Problem getting info from server", {duration: 5000});
+        this.snackbar.open("Problem getting info from server", "Failed", {duration: 5000});
       }
     );
   }
@@ -76,11 +76,11 @@ export class RegisterComponent implements OnInit {
         if(data['success'])
           this.notRobot = true;
         else
-          this.snackbar.open("Error", "you didn't pass authentication", {duration: 5000});
+          this.snackbar.open("you didn't pass authentication", "Failed", {duration: 5000});
       },
       error => {
         console.log(error);
-        this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
+        this.snackbar.open("Problem communicating with server, check connection", "Failed", {duration: 5000});
       }
     );
   }

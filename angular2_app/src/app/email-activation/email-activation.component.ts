@@ -19,17 +19,17 @@ export class EmailActivationComponent implements OnInit {
     this.authService.activate(id, hash).subscribe(
       data => {
         if(data['status'] == 200) {
-          this.snackbar.open("Success", data['message'], {duration: 5000});
+          this.snackbar.open(data['message'], "Success", {duration: 5000});
           this.router.navigate(['login']);
         }
         else {
           this.data = data['message'];
-          this.snackbar.open("Error", data['message'], {duration: 5000});
+          this.snackbar.open(data['message'], "Failed", {duration: 5000});
         }
       },
       error => {
         console.log(error);
-        this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
+        this.snackbar.open("Problem communicating with server, check connection", "Failed", {duration: 5000});
       }
     );
   }
@@ -43,7 +43,7 @@ export class EmailActivationComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.snackbar.open("Error", "Problem with url provided, wrong link", {duration: 5000});
+        this.snackbar.open("Problem with url provided, wrong link", "Failed", {duration: 5000});
       }
     );
   }
