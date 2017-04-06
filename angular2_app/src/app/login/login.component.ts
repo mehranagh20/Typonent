@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         }
       },
       errors => {
-        this.globErrors = ['Problem Communicating With Server!!'];
+        this.globErrors = [];
         this.loading = false;
         this.snackbar.open("Error", "Problem communicating with server, check connection", {duration: 5000});
       }
