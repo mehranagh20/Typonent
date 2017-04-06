@@ -39,6 +39,8 @@ export class CompetitionsComponent implements OnInit {
       },
       error => {
         console.log("error getting current time from server");
+        console.log(error);
+        this.openSnackBar("Problem Communicating With Server for getting current date", "Failed");
         this.current_date = String(new Date().getTime());
       }
     );
@@ -67,6 +69,7 @@ export class CompetitionsComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.openSnackBar("Problem Communicating With Server", "Failed");
       }
     );
   }
@@ -80,6 +83,7 @@ export class CompetitionsComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.openSnackBar("Problem Communicating With Server", "Failed");
       }
     )
   }
@@ -112,7 +116,7 @@ export class CompetitionsComponent implements OnInit {
 
   openSnackBar(message: string, status: string) {
     this.snackBar.open(message, status, {
-      duration: 4000,
+      duration: 5000,
     });
   }
 

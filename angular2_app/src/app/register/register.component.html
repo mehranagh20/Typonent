@@ -36,7 +36,7 @@
     <label for="username" *ngFor="let er of usernameErrors">{{er}}</label>
     <label>{{usernamee.validationMessage}}</label>
     <md-input-container id="username" dividerColor="{{setcol(usernamee)}}">
-      <input type="text" mdInput placeholder="Username" name="username" [(ngModel)]="user.username" #usernamee="ngModel" required maxlength="40">
+      <input type="text" mdInput placeholder="Username" name="username" [(ngModel)]="user.username" #usernamee="ngModel" required maxlength="40" minlength="5">
     </md-input-container>
 
     <br/><br/>
