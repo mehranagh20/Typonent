@@ -5,6 +5,7 @@ import {userInfo} from "os";
 import {Http, Response} from "@angular/http";
 import {Routes, Router} from '@angular/router'
 import {forEach} from "@angular/router/src/utils/collection";
+import {MdSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,7 @@ export class RegisterComponent implements OnInit {
   notRobot: boolean;
 
 
-  constructor(private authenticationService: AuthenticationService, private http: Http, private route: Router) {}
+  constructor(private authenticationService: AuthenticationService, private http: Http, private route: Router, private snackbar: MdSnackBar) {}
 
   doregister() {
     this.loading = true;
@@ -49,7 +50,7 @@ export class RegisterComponent implements OnInit {
       errors => {
         this.loading = false;
         this.clearErrors();
-        this.globErrors = ['Problem Communicating With Server!!'];
+        this.snackbar.open("Error", "Problem getting info from server", {duration: 5000});
       }
     );
   }
@@ -72,6 +73,11 @@ export class RegisterComponent implements OnInit {
       data => {
         if(data['success'])
           this.notRobot = true;
+        else
+          this.snackbar.open("Error", "you didn't pass authentication", {duration: 5000});
+      },
+      error => {
+        this.snackbar.open("Error", "Problem with authenticating", {duration: 5000});
       }
     );
   }

@@ -27,6 +27,7 @@ def send_email(subject, body, email):
         email.send()
         return True
     except:
+        print("problem with email settings")
         return False
 
 

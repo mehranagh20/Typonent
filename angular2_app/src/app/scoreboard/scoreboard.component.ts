@@ -2,6 +2,7 @@ import {Component, OnInit, trigger, style, state, transition, animate} from '@an
 import {CompetitionService} from '../competition.service';
 import {ActivatedRoute, Params} from '@angular/router'
 import {Involvement} from '../involvement'
+import {MdSnackBar} from '@angular/material'
 
 @Component({
   selector: 'app-scoreboard',
@@ -24,7 +25,7 @@ import {Involvement} from '../involvement'
 })
 export class ScoreboardComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private compService: CompetitionService) { }
+  constructor(private route: ActivatedRoute, private compService: CompetitionService, private snackbar: MdSnackBar) { }
 
   id: number;
   my_name: string; // change color of row if is me
@@ -64,7 +65,7 @@ export class ScoreboardComponent implements OnInit {
           console.log(data['message']);
       },
       error => {
-        console.log(error);
+        this.snackbar.open("Error", "Problem getting info from server", {duration: 5000});
       }
     );
   }
