@@ -190,11 +190,13 @@ def register_competition(request, id):
         try:
             # user can only register in competitions that requirements for that competition are met by user
             # so the requirements must have finished and passed by 3 minutes so that the result is clear.
-            time_to_finish = req.required_competition.start_time + timedelta(seconds=req.required_competition.duration + 3 * 60)
 
             inv = req.required_competition.competitors.get(user=user)
-            if inv.rank > req.min_rank or timezone.now() <= time_to_finish:
+            if inv.rank > req.min_rank or not inv.started_competition:
                 return JsonResponse({'status': 403, 'message': 'you do meet the requirements for this competition'}) # forbidden
+            if inv.time_passed != req.required_competition.duration:
+                return JsonResponse({'status': 403,
+                                     'message': 'you did not finish some required competitions properly to the end'})
         except:
             return JsonResponse(
                 {'status': 403, 'message': 'you do meet the requirements for this competition'})  # forbidden
@@ -303,18 +305,20 @@ def my_rank(request):
             competitor.wpm = wpm
             competitor.save()
 
-            all = sorted(competition.competitors.all(), key=lambda k: (-k.wpm, -k.correct_char_number,
+            all = sorted(competition.competitors.filter(started_competition=True), key=lambda k: (-k.wpm, -k.correct_char_number,
                                                      k.wrong_char_number, -k.total_keystrokes))
 
-            if finished:
-                print('saving')
-                for i in range(len(all)):
-                    all[i].rank = i + 1
-                    all[i].save()
+            # if finished:
+            #     print('saving')
+            #     for i in range(len(all)):
+            #         all[i].rank = i + 1
+            #         all[i].save()
 
             ind = 0
             for i in range(len(all)):
                 if all[i] == competitor:
+                    all[i].rank = i + 1
+                    all[i].save()
                     ind = i
                     break
 
@@ -340,7 +344,8 @@ def scoreboard(request, id):
     try:
         competition = Competition.objects.get(id=id)
         all = [{**InvolvementSerializer(i).data, **{'name': i.user.username}}
-               for i in sorted(competition.competitors.filter(started_competition=True, time_passed=competition.duration), key=lambda k: -k.wpm)]
+               for i in sorted(competition.competitors.filter(started_competition=True), key=lambda k: (-k.wpm, -k.correct_char_number,
+                                                     k.wrong_char_number, -k.total_keystrokes))]
 
         # print(sorted(competition.competitors.filter(started_competition=True), key=lambda k: -k.wpm))
         data = {'status': 200, 'scoreboard': all, 'name': ''}

@@ -128,6 +128,7 @@ class Involvement(models.Model):
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='competitors')
     rank = models.IntegerField(default=0)
     started_competition = models.BooleanField(default=False)
+    finished_competition = models.BooleanField(default=False)
 
     wpm = models.IntegerField(default=0)
     correct_char_number = models.IntegerField(default=0)
