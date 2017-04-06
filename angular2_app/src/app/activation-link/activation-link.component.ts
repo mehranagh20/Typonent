@@ -17,11 +17,13 @@ export class ActivationLinkComponent implements OnInit {
     this.loading = true;
     this.autService.generate_link(email).subscribe(
       data => {
-        this.snackbar.open("Status", data['message'], {duration:5000});
+        this.snackbar.open(data['message'], "Status", {duration:5000});
         this.loading = false;
       },
       error => {
+        this.loading = false;
         console.log(error);
+        this.snackbar.open("Problem Communicating With Server", "Failed", {duration:5000});
       }
     );
   }
